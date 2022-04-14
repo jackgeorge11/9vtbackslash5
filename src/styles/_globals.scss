@@ -1,0 +1,66 @@
+// PAGE
+html {
+  @include trans;
+  font-family: $font;
+}
+
+body {
+  margin: 0;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  max-width: 100vw;
+  width: 100vw;
+  height: 100vh;
+  max-height: 100vh;
+}
+
+// WIDTHS, HEIGHTS
+@each $p, $d in $percentages {
+  .w-#{$p} {
+    width: percentage($d);
+  }
+  .h-#{$p} {
+    width: percentage($d);
+  }
+  .w-min-#{$p} {
+    min-width: percentage($d);
+  }
+  .h-min-#{$p} {
+    min-height: percentage($d);
+  }
+  .w-max-#{$p} {
+    max-width: percentage($d);
+  }
+  .h-max-#{$p} {
+    max-height: percentage($d);
+  }
+}
+
+@each $header, $size in $header-sizes {
+  #{$header} {
+    font-size: $size;
+    font-weight: $thin;
+    margin: 0;
+  }
+}
+
+a {
+  color: $dark;
+  text-decoration: none;
+  @include trans;
+
+  &:hover {
+    color: $light;
+  }
+}
+
+// CURSOR
+.pointer {
+  cursor: pointer;
+}

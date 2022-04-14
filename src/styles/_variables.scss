@@ -1,0 +1,38 @@
+// FONTS
+@import url("https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,600;1,400;1,600&display=swap");
+$font: "STIX Two Text", serif;
+
+$lg: 1.5rem;
+$md: 1rem;
+$sm: 0.875rem;
+
+$font-sizes: ($lg, $md, $sm);
+$header-sizes: (
+  h1: $lg,
+  h2: $md,
+  h3: $sm,
+);
+
+$thick: 600;
+$thin: 400;
+
+// COLORS
+$light: #ffffff;
+$dark: #000000;
+
+// TRANSITIONS
+$fast: 0.15s;
+$slow: 0.3s;
+
+$percentages: (
+  10: 0.1,
+  20: 0.2,
+  30: 0.3,
+  40: 0.4,
+  50: 0.5,
+  60: 0.6,
+  70: 0.7,
+  80: 0.8,
+  90: 0.9,
+  100: 1,
+);

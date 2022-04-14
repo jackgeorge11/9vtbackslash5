@@ -1,0 +1,5 @@
+// TRANSITIONS
+
+@mixin trans ($t: $fast) {
+  transition: all ease-out $t;
+}

@@ -1,0 +1,14 @@
+.nav {
+  display: flex;
+  position: absolute;
+
+  &.left {
+    left: 10%;
+    top: 10%;
+  }
+
+  &.right {
+    right: 10%;
+    bottom: 10%;
+  }
+}
