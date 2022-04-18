@@ -1,23 +1,22 @@
 // PAGE
 html {
-  @include trans;
-  font-family: $font;
+  background-color: $light;
 }
 
 body {
   margin: 0;
+  @include trans;
+  font-family: $font;
 }
 
 .main {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  @include center($d: column);
   position: relative;
   max-width: 100vw;
   width: 100vw;
   height: 100vh;
   max-height: 100vh;
+  overflow-x: hidden;
 }
 
 // WIDTHS, HEIGHTS
@@ -42,6 +41,48 @@ body {
   }
 }
 
+// GENERAL CLASSES
+
+.hidden {
+  display: none;
+}
+
+// TEXT
+
+.italic {
+  font-style: italic;
+}
+
+.under {
+  text-decoration: underline;
+}
+
+@each $v in $alignments {
+  .ta-#{$v} {
+    text-align: $v;
+  }
+}
+
+@each $k, $v in $colors {
+  .--#{$k} {
+    color: $v;
+  }
+}
+
+@each $n, $w in $font-weights {
+  .#{$n} {
+    font-weight: $w;
+  }
+}
+
+// HEADERS
+
+@each $s, $n in $font-sizes {
+  .#{$s} {
+    font-size: $n;
+  }
+}
+
 @each $header, $size in $header-sizes {
   #{$header} {
     font-size: $size;
@@ -53,10 +94,16 @@ body {
 a {
   color: $dark;
   text-decoration: none;
+  font-weight: $thick;
+  width: fit-content;
   @include trans;
 
   &:hover {
     color: $light;
+  }
+
+  &.under {
+    text-decoration: underline;
   }
 }
 

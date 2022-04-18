@@ -1,0 +1,62 @@
+.product {
+  @include center;
+  width: 100%;
+  height: 100%;
+
+  .image {
+    height: calc(300px + #{$g-sm * 2});
+    // max-height: 300px;
+    // width: 20%;
+    max-width: 20%;
+    @include center;
+    margin-right: $g-lg;
+
+    * {
+      width: 100% !important;
+      height: 100% !important;
+
+      img {
+        width: auto !important;
+        height: auto !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+      }
+    }
+  }
+}
+
+.zoom {
+  width: calc(100vw - #{$g-sm * 2});
+  height: calc(100vh - #{$g-sm * 2});
+  padding: $g-sm;
+  overflow: scroll;
+  position: relative;
+
+  .image {
+    max-width: 100%;
+    width: 100%;
+    max-height: 100%;
+    height: 100%;
+
+    * {
+      width: 100% !important;
+      height: 100% !important;
+
+      img {
+        width: auto !important;
+        height: auto !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+      }
+    }
+  }
+
+  .back {
+    margin: $g-sm;
+    padding: $g-sm;
+    border-radius: $border-radius;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+}

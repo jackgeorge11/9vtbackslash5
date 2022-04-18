@@ -1,5 +1,38 @@
+// FLEX
+@mixin center($d: row) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: $d;
+}
+
 // TRANSITIONS
 
-@mixin trans ($t: $fast) {
+@mixin trans($t: $fast) {
   transition: all ease-out $t;
+}
+
+// BORDERS
+@mixin border($s: $border-size, $r: $border-radius, $c: $dark, $v: y) {
+  @if $v == y {
+    border-top: $s solid $dark;
+    border-bottom: $s solid $dark;
+    border-radius: $r;
+    overflow-y: scroll;
+  } @else if $v == x {
+    border-left: $s solid $dark;
+    border-right: $s solid $dark;
+    border-radius: $r;
+    overflow-x: scroll;
+  } @else {
+    border: $s solid $dark;
+    border-radius: $r;
+    overflow: hidden;
+  }
+}
+
+@mixin media($s: $screen-sm) {
+  @media (max-width: $s) {
+    @content;
+  }
 }

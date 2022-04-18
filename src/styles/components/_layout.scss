@@ -1,14 +1,33 @@
-.nav {
-  display: flex;
-  position: absolute;
+.main {
+  .nav {
+    display: flex;
+    position: absolute;
 
-  &.left {
-    left: 10%;
-    top: 10%;
+    &.left {
+      left: 10%;
+      top: 5%;
+    }
+
+    &.right {
+      right: 10%;
+      bottom: 5%;
+    }
   }
 
-  &.right {
-    right: 10%;
-    bottom: 10%;
+  .nav-item {
+    position: absolute;
+  }
+
+  .half-logo {
+    position: absolute;
+
+    &.right {
+      top: 0;
+      right: -10%;
+    }
+    &.left {
+      bottom: 0;
+      left: -10%;
+    }
   }
 }

@@ -1,0 +1,68 @@
+.window {
+  @include border;
+  padding: $g-sm;
+  min-height: 300px;
+  max-height: 300px;
+  display: flex;
+  flex-direction: column;
+  background-color: $light;
+  position: relative;
+  z-index: 10;
+
+  .window-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "";
+    z-index: -1;
+    @include trans;
+  }
+
+  @include media {
+    width: 90%;
+  }
+
+  &.small {
+    width: $window-sm;
+    overflow-x: hidden;
+    overflow-y: scroll;
+
+    @include media($s: $screen-md) {
+      width: 60%;
+    }
+    @include media {
+      width: 75%;
+    }
+  }
+  &.large {
+    width: $window-lg;
+    overflow-y: hidden;
+    overflow-x: scroll;
+
+    @include media($s: $screen-md) {
+      width: 87.5%;
+    }
+  }
+
+  .m-0 {
+    margin: 0;
+  }
+
+  h1 {
+    margin: $g-md 0;
+    text-align: right;
+    text-decoration: underline;
+  }
+
+  h2 {
+    margin: $g-sm 0;
+  }
+
+  h3 {
+    margin: $g-xsm 0;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+}

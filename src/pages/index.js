@@ -4,7 +4,7 @@ import Layout from "../components/Layout";
 import { StaticImage } from "gatsby-plugin-image";
 
 export default function IndexPage() {
-  const { changeColor } = useContext(ColorContext);
+  const { logoClick } = useContext(ColorContext);
 
   return (
     <Layout
@@ -12,8 +12,8 @@ export default function IndexPage() {
       description="9VT\5 -- also 9vtbackslash5 -- is an independent publishing house and creative platform for artists, authors, and others."
       page="home"
     >
-      <div className="home-logo w-30 pointer" onClick={changeColor}>
-        <StaticImage src="../assets/brand/logo.png" />
+      <div className="home-logo w-30 pointer" onClick={logoClick}>
+        <StaticImage src="../assets/brand/logo.png" alt="logo"/>
       </div>
     </Layout>
   );

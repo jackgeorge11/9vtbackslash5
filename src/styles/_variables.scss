@@ -1,29 +1,54 @@
 // FONTS
-@import url("https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,600;1,400;1,600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,500;1,400;1,500&display=swap");
 $font: "STIX Two Text", serif;
 
+// FONT SIZES
 $lg: 1.5rem;
 $md: 1rem;
 $sm: 0.875rem;
+$xsm: 0.75rem;
 
-$font-sizes: ($lg, $md, $sm);
+$font-sizes: (
+  lg: $lg,
+  md: $md,
+  sm: $sm,
+  xsm: $xsm,
+);
+
 $header-sizes: (
   h1: $lg,
   h2: $md,
   h3: $sm,
 );
 
-$thick: 600;
+// TEXT ALIGNMENTS
+$alignments: (left, right, center);
+
+// FONT WEIGHTS
+$thick: 500;
 $thin: 400;
+
+$font-weights: (
+  thin: $thin,
+  thick: $thick,
+);
 
 // COLORS
 $light: #ffffff;
 $dark: #000000;
+$muted: #00000055;
+
+$colors: (
+  light: $light,
+  dark: $dark,
+  muted: $muted,
+);
 
 // TRANSITIONS
 $fast: 0.15s;
 $slow: 0.3s;
 
+// SIZES
 $percentages: (
   10: 0.1,
   20: 0.2,
@@ -36,3 +61,22 @@ $percentages: (
   90: 0.9,
   100: 1,
 );
+
+// BORDERS
+$border-size: 0.1rem;
+$border-radius: 0.5rem;
+
+// GUTTERS
+$g-lg: 2rem;
+$g-md: 1rem;
+$g-sm: 0.5rem;
+$g-xsm: 0.25rem;
+$g-xxsm: 0.15rem;
+
+// WINDOW SIZES
+$window-lg: 65%;
+$window-sm: 35%;
+
+// MEDIA
+$screen-sm: 500px;
+$screen-md: 800px;

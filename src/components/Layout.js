@@ -1,55 +1,145 @@
 import { Link } from "gatsby";
-import React, { useContext } from "react";
+import { StaticImage } from "gatsby-plugin-image";
+import React, { useContext, useEffect, useState } from "react";
 import Helmet from "react-helmet";
 import { ColorContext } from "../contexts/ColorContext";
 import "../styles/styles.scss";
 
 export default function Layout({ children, title, description, page }) {
-  const { color, changeColor } = useContext(ColorContext);
+  const { color, arrangement, logoClick } = useContext(ColorContext);
 
-  const rearrange = () => {
-    changeColor();
+  console.log(arrangement);
+
+  const getNav = (page, slot) => {
+    let navItems = [];
+    if (page === "catalogue") {
+      navItems = [
+        { title: "home", slug: "/" },
+        { title: "submissions", slug: "/submissions" },
+        { title: "about", slug: "/about" },
+        { title: "inquiries", slug: "/inquiries" },
+      ];
+    } else if (page === "submissions") {
+      navItems = [
+        { title: "home", slug: "/" },
+        { title: "catalogue", slug: "/catalogue" },
+        { title: "about", slug: "/about" },
+        { title: "inquiries", slug: "/inquiries" },
+      ];
+    } else if (page === "about") {
+      navItems = [
+        { title: "home", slug: "/" },
+        { title: "catalogue", slug: "/catalogue" },
+        { title: "submissions", slug: "/submissions" },
+        { title: "inquiries", slug: "/inquiries" },
+      ];
+    } else if (page === "inquiries") {
+      navItems = [
+        { title: "home", slug: "/" },
+        { title: "catalogue", slug: "/catalogue" },
+        { title: "submissions", slug: "/submissions" },
+        { title: "about", slug: "/about" },
+      ];
+    } else {
+      navItems = [
+        { title: "catalogue", slug: "/catalogue" },
+        { title: "submissions", slug: "/submissions" },
+        { title: "about", slug: "/about" },
+        { title: "inquiries", slug: "/inquiries" },
+      ];
+    }
+    return navItems[slot];
   };
+
+  const [arrangements, setArrangements] = useState([{}, {}, {}, {}]);
+
+  useEffect(() => {
+    if (arrangement) {
+      setArrangements([
+        arrangement.a,
+        arrangement.b,
+        arrangement.c,
+        arrangement.d,
+      ]);
+    }
+  }, [arrangement]);
+
+  console.log(arrangements);
 
   return (
     <div className="main">
       <Helmet>
         <title>{title}</title>
         <meta name="description" content={description} />
-        <style type="text/css">{`html {background-color: ${color}}`}</style>
+        <style type="text/css">{`body {background-color: ${color}}`}</style>
       </Helmet>
-      <div className="nav left">
-        <Link to={page === "catalogue" ? "/" : "/catalogue"} className="nav-a">
-          {page === "catalogue" ? "home" : "catalogue"}
-        </Link>
-        <span className={false ? "backslashes hidden" : "backslashes"}>
-          {" \\\\ "}
-        </span>
-        <Link
-          to={page === "submissions" ? "/catalogue" : "/submissions"}
-          className="nav-b"
-        >
-          {page === "submissions" ? "catalogue" : "submissions"}
-        </Link>
-      </div>
-      <div className="nav right">
-        <Link
-          to={page === "about" ? "/submissions" : "/about"}
-          className="nav-b"
-        >
-          {page === "about" ? "submissions" : "about"}
-        </Link>
-        <span className={false ? "backslashes hidden" : "backslashes"}>
-          {" \\\\ "}
-        </span>
-        <Link
-          to={page === "inquiries" ? "/about" : "/inquiries"}
-          className="nav-b"
-        >
-          {page === "inquiries" ? "about" : "inquiries"}
-        </Link>
-      </div>
+      {arrangement ? (
+        arrangements.map((a, i) => {
+          return (
+            <Link
+              to={getNav(page, i).slug}
+              style={{ top: a.top, left: a.left }}
+              className="nav-item sm"
+            >
+              {getNav(page, i).title}
+            </Link>
+          );
+        })
+      ) : (
+        <>
+          <div className="nav left">
+            {arrangements.map((link, i) => {
+              if (i === 0) {
+                return (
+                  <>
+                    <Link to={getNav(page, i).slug} className="sm">
+                      {getNav(page, i).title}
+                    </Link>
+                    {" \\\\ "}
+                  </>
+                );
+              } else if (i === 1) {
+                return (
+                  <Link to={getNav(page, i).slug} className="sm">
+                    {getNav(page, i).title}
+                  </Link>
+                );
+              }
+            })}
+          </div>
+          <div className="nav right">
+            {arrangements.map((link, i) => {
+              if (i === 2) {
+                return (
+                  <>
+                    <Link to={getNav(page, i).slug} className="sm">
+                      {getNav(page, i).title}
+                    </Link>
+                    {" \\\\ "}
+                  </>
+                );
+              } else if (i === 3) {
+                return (
+                  <Link to={getNav(page, i).slug} className="sm">
+                    {getNav(page, i).title}
+                  </Link>
+                );
+              }
+            })}
+          </div>
+        </>
+      )}
       {children}
+      {page !== "home" ? (
+        <>
+          <div className="w-20 half-logo right pointer" onClick={logoClick}>
+            <StaticImage src="../assets/brand/logo.png" alt="logo" />
+          </div>
+          <div className="w-20 half-logo left pointer" onClick={logoClick}>
+            <StaticImage src="../assets/brand/logo.png" alt="logo" />
+          </div>
+        </>
+      ) : null}
     </div>
   );
 }

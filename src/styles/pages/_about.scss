@@ -1,0 +1,29 @@
+.window {
+  &.about {
+    .team {
+      width: 100%;
+      @include center($d: column);
+
+      .member {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: $g-sm 0;
+        flex-direction: column-reverse;
+
+        h2 {
+          margin: 0;
+          text-align: center;
+        }
+
+        .sketch {
+          min-width: 10rem;
+          width: 35%;
+          max-width: 20rem;
+          margin-bottom: $g-sm;
+        }
+      }
+    }
+  }
+}

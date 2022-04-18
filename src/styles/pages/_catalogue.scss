@@ -1,0 +1,44 @@
+.window {
+  &.catalogue {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-x: scroll;
+
+    .description {
+      min-width: 100%;
+      width: 100%;
+      align-self: flex-start;
+      margin-right: $g-lg;
+    }
+
+    .idea {
+      @include center;
+      margin: $g-sm $g-lg;
+
+      .cover {
+        min-width: 10rem;
+        width: 25%;
+        max-width: 20rem;
+        margin-right: $g-sm;
+      }
+
+      .info {
+        width: 10rem;
+        max-width: 10rem;
+
+        h1 {
+          text-align: left;
+          margin: $g-sm 0;
+        }
+
+        h2,
+        h3 {
+          margin: 0;
+          margin: $g-xxsm 0;
+          
+        }
+      }
+    }
+  }
+}
