@@ -8,8 +8,6 @@ import "../styles/styles.scss";
 export default function Layout({ children, title, description, page }) {
   const { color, arrangement, logoClick } = useContext(ColorContext);
 
-  console.log(arrangement);
-
   const getNav = (page, slot) => {
     let navItems = [];
     if (page === "catalogue") {
@@ -64,8 +62,6 @@ export default function Layout({ children, title, description, page }) {
     }
   }, [arrangement]);
 
-  console.log(arrangements);
-
   return (
     <div className="main">
       <Helmet>
@@ -80,6 +76,7 @@ export default function Layout({ children, title, description, page }) {
               to={getNav(page, i).slug}
               style={{ top: a.top, left: a.left }}
               className="nav-item sm"
+              key={i}
             >
               {getNav(page, i).title}
             </Link>
@@ -92,7 +89,7 @@ export default function Layout({ children, title, description, page }) {
               if (i === 0) {
                 return (
                   <>
-                    <Link to={getNav(page, i).slug} className="sm">
+                    <Link to={getNav(page, i).slug} className="sm" key={i}>
                       {getNav(page, i).title}
                     </Link>
                     {" \\\\ "}
@@ -100,11 +97,11 @@ export default function Layout({ children, title, description, page }) {
                 );
               } else if (i === 1) {
                 return (
-                  <Link to={getNav(page, i).slug} className="sm">
+                  <Link to={getNav(page, i).slug} className="sm" key={i}>
                     {getNav(page, i).title}
                   </Link>
                 );
-              }
+              } else return null;
             })}
           </div>
           <div className="nav right">
@@ -112,7 +109,7 @@ export default function Layout({ children, title, description, page }) {
               if (i === 2) {
                 return (
                   <>
-                    <Link to={getNav(page, i).slug} className="sm">
+                    <Link to={getNav(page, i).slug} className="sm" key={i}>
                       {getNav(page, i).title}
                     </Link>
                     {" \\\\ "}
@@ -120,11 +117,11 @@ export default function Layout({ children, title, description, page }) {
                 );
               } else if (i === 3) {
                 return (
-                  <Link to={getNav(page, i).slug} className="sm">
+                  <Link to={getNav(page, i).slug} className="sm" key={i}>
                     {getNav(page, i).title}
                   </Link>
                 );
-              }
+              } else return null;
             })}
           </div>
         </>

@@ -24,5 +24,12 @@ module.exports = {
         icon: "src/assets/brand/favicon.png",
       },
     },
+    {
+      resolve: `gatsby-source-contentful`,
+      options: {
+        spaceId: `6jqe8vb4wi8v`,
+        accessToken: `XAyIkrlrr1xCeoBOICMMExIb26fR3P5V5Jn6gEPuMBs`,
+      },
+    },
   ],
 };

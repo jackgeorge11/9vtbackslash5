@@ -1,21 +1,20 @@
 import React, { useContext, useState } from "react";
 import Layout from "./Layout";
 import Window from "./Window";
-import { StaticImage } from "gatsby-plugin-image";
+import { GatsbyImage, StaticImage } from "gatsby-plugin-image";
 import { ColorContext } from "../contexts/ColorContext";
 
-export default function Product({ children, src }) {
+export default function Product({ children, src, alt, url }) {
   // const [closer, setCloser] = useState(false);
   const [zoom, setZoom] = useState(false);
 
   const { color } = useContext(ColorContext);
-  console.log(color)
 
   if (zoom) {
     return (
       <div className="zoom" style={{ backgroundColor: color }}>
         <div className="image">
-          <StaticImage src="../assets/catalogue/publications/triple-entendre/front.jpg" />
+          <img src={url} alt={alt} />
         </div>
         <div className="back">
           <h2>
@@ -32,7 +31,7 @@ export default function Product({ children, src }) {
       <Layout page="catalogue">
         <div className="product">
           <div className="image pointer" onClick={() => setZoom(true)}>
-            <StaticImage src="../assets/catalogue/publications/triple-entendre/front.jpg" />
+            <GatsbyImage image={src} alt={alt} />
           </div>
           <Window className="small">{children}</Window>
         </div>
