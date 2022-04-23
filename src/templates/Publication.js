@@ -62,7 +62,7 @@ export default function index({ data }) {
   const description = publication.description;
   const cover = getImage(publication?.cover);
 
-  console.log(description);
+  console.log(publication);
 
   return (
     <Product src={cover} alt={`${publication.title} cover`}>
@@ -77,8 +77,8 @@ export default function index({ data }) {
         catalogue.
       </h2>
       <h1>details</h1>
-      {publication.releaseDate && (
-        <h2 className="m-0">released in {publication.releaseDate}</h2>
+      {publication.price && (
+        <h2 className="m-0">${publication.price}</h2>
       )}
       {publication.artwork && (
         <h2 className="m-0">artwork by {publication.artwork}</h2>
@@ -92,8 +92,12 @@ export default function index({ data }) {
       {publication.publisher && (
         <h2 className="m-0">printed by {publication.publisher}</h2>
       )}
+      {publication.releaseDate && (
+        <h2 className="m-0">published in {publication.releaseDate}</h2>
+      )}
       {publication.genre && <h2 className="m-0">{publication.genre}</h2>}
       {publication.format && <h2 className="m-0">{publication.format}</h2>}
+      {publication.pageCount && <h2 className="m-0">{publication.pageCount} pages</h2>}
       {publication.isbn && <h2 className="m-0">ISBN: {publication.isbn}</h2>}
       {publication.shipsFrom && (
         <h2 className="m-0">ships from {publication.shipsFrom}</h2>

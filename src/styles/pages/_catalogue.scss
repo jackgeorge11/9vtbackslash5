@@ -4,29 +4,53 @@
     justify-content: flex-start;
     align-items: center;
     overflow-x: scroll;
+    border: none;
+    @include border($v: x);
 
     .description {
       min-width: 100%;
       width: 100%;
       align-self: flex-start;
       margin-right: $g-lg;
+
+      .title {
+        margin-bottom: 0;
+        max-width: none;
+      }
+
+      h2 {
+        max-width: 60%;
+
+        &.author {
+          margin: 0 0 $g-md;
+          max-width: none;
+        }
+      }
     }
 
     .idea {
       @include center;
-      margin: $g-sm $g-lg;
+      height: 100%;
+      margin: 0 $g-lg;
+      flex-shrink: 0;
+      width: fit-content;
 
       .cover {
-        min-width: 10rem;
-        width: 25%;
-        max-width: 20rem;
         margin-right: $g-sm;
+        height: 100%;
+        max-height: 100%;
+
+        div {
+          height: 100%;
+        }
+
+        img {
+          width: fit-content !important;
+        }
       }
 
       .info {
-        width: 10rem;
-        max-width: 10rem;
-
+        max-width: 20rem;
         h1 {
           text-align: left;
           margin: $g-sm 0;
@@ -36,7 +60,6 @@
         h3 {
           margin: 0;
           margin: $g-xxsm 0;
-          
         }
       }
     }

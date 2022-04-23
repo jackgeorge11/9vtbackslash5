@@ -18,8 +18,19 @@ export default function index() {
             on limited-run collections and editions.
           </h2>
           <h2>
-            Our interests lie across an array of disciplines, from the
-            manifestations of psychics to the publication of academic theses.
+            Our interests lie across an array of disciplines, from the moody
+            manifestations of visual artists to the publication of academic
+            theses.
+          </h2>
+          <h2>
+            <a
+              href="https://instagram.com/9vtbackslash5"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              click here
+            </a>{" "}
+            to checkout our Instagram.
           </h2>
           <h1>our name</h1>
           <h2>

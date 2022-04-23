@@ -5,31 +5,39 @@ import Layout from "../../components/Layout";
 import Window from "../../components/Window";
 
 export default function Index() {
-  const getMood = (range) => {
-    const n = Math.floor(Math.random() * 10) + 1;
-    if (n === 10) {
-      return n;
-    } else {
-      return "0" + n;
-    }
+  const getMood = () => {
+    return Math.floor(Math.random() * 10);
   };
 
-  const { allContentfulPublication } = useStaticQuery(graphql`
+  const { allContentfulCatalogue } = useStaticQuery(graphql`
     query MyQuery {
-      allContentfulPublication {
-        edges {
-          node {
-            id
-            releaseDate(formatString: "MMMM YYYY")
-            soldOut
-            title
-            description {
-              raw
+      allContentfulCatalogue {
+        nodes {
+          items {
+            ... on ContentfulMoodsCollection {
+              moods {
+                photo {
+                  gatsbyImageData
+                }
+              }
+              slug
+              releaseDate(formatString: "MMMM YYYY")
+              artist
+              internal {
+                type
+              }
             }
-            slug
-            cover {
-              id
-              gatsbyImage(width: 10, height: 10)
+            ... on ContentfulPublication {
+              slug
+              author
+              cover {
+                gatsbyImageData
+              }
+              releaseDate(formatString: "MMMM YYYY")
+              internal {
+                type
+              }
+              title
             }
           }
         }
@@ -37,86 +45,76 @@ export default function Index() {
     }
   `);
 
-  const items = allContentfulPublication?.edges;
+  const sortCatalogue = (catalogue) => {
+    return catalogue.sort(function (a, b) {
+      return new Date(b.releaseDate) - new Date(a.releaseDate);
+    });
+  };
 
-  const image = getImage(items[1].node.cover);
+  const sortedCatalogue = sortCatalogue(allContentfulCatalogue.nodes[0].items);
 
-  console.log(items[1].node.cover);
+  console.log(sortedCatalogue[1].moods?.[getMood()]);
 
   return (
     <div>
       <Layout page="catalogue">
         <Window className="large catalogue">
-          <GatsbyImage src={image} alt="test" />
           <div className="description">
             <h1>catalogue</h1>
             <h2>discover everything 9VT\5 has put into the world.</h2>
             <h2 className="--muted">(scroll -->)</h2>
           </div>
-          {items.map((item, i) => {
+          {sortedCatalogue?.map((item, i) => {
             return (
               <div className="idea">
                 <Link
-                  to={`/catalogue/${item.node.slug}`}
+                  to={`/catalogue/${
+                    item.internal.type === "ContentfulMoodsCollection"
+                      ? `moods/${item.slug}`
+                      : item.slug
+                  }`}
                   className="cover"
                 >
                   <GatsbyImage
-                    src={getImage(item.node.cover)}
-                    alt={item.node.title}
+                    image={
+                      item.internal.type === "ContentfulMoodsCollection"
+                        ? getImage(item.moods?.[getMood()].photo)
+                        : getImage(item.cover)
+                    }
+                    alt={
+                      item.internal.type === "ContentfulMoodsCollection"
+                        ? `Moods by ${item.artist}`
+                        : item.title
+                    }
+                    objectFit="contain"
+                    style={{ maxHeight: "100%" }}
                   />
                 </Link>
                 <div className="info">
                   <h1 className="italic">
-                    <Link to={`/catalogue/${item.node.slug}`}>
-                      {item.node.title}
+                    <Link
+                      to={`/catalogue/${
+                        item.internal.type === "ContentfulMoodsCollection"
+                          ? `moods/${item.slug}`
+                          : item.slug
+                      }`}
+                    >
+                      {item.internal.type === "ContentfulMoodsCollection"
+                        ? "Moods"
+                        : item.title}
                     </Link>
                   </h1>
-                  <h2>by {item.node.authors}</h2>
-                  <h3>{item.node.release}</h3>
+                  <h2>
+                    by{" "}
+                    {item.internal.type === "ContentfulMoodsCollection"
+                      ? item.artist
+                      : item.author}
+                  </h2>
+                  <h3>{item.releaseDate}</h3>
                 </div>
               </div>
             );
           })}
-          {/* <div className="idea">
-            <Link to="/catalogue/between-there-and-now-too" className="cover">
-              <StaticImage src="../../assets/catalogue/publications/between-there-and-now-too/front.png" />
-            </Link>
-            <div className="info">
-              <h1 className="italic">
-                <Link to="/catalogue/between-there-and-now-too">
-                  Between There and Now, too
-                </Link>
-              </h1>
-              <h2>by various authors</h2>
-              <h3>May 2022</h3>
-            </div>
-          </div>
-          <div className="idea">
-            <Link to="/catalogue/moods/cottu" className="cover">
-              {getCover()}
-            </Link>
-            <div className="info">
-              <Link to="/catalogue/moods/cottu">
-                <h1 className="italic">Moods</h1>
-              </Link>
-              <h2>by Juliette Cottu</h2>
-              <h3>May 2021</h3>
-              <h3 className="--muted">(sale ended)</h3>
-            </div>
-          </div>
-          <div className="idea">
-            <Link to="/catalogue/triple-entendre" className="cover">
-              <StaticImage src="../../assets/catalogue/publications/triple-entendre/front.jpg" />
-            </Link>
-            <div className="info">
-              <Link to="/catalogue/triple-entendre">
-                <h1 className="italic">Triple Entendre</h1>
-              </Link>
-              <h2>by Jack George</h2>
-              <h3>March 2021</h3>
-              <h3 className="--muted">(sold out)</h3>
-            </div>
-          </div> */}
         </Window>
       </Layout>
     </div>

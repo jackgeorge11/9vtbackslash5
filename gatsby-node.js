@@ -4,7 +4,7 @@ exports.createPages = async function ({ actions, graphql }) {
       allContentfulMoodsCollection {
         nodes {
           slug
-          mood {
+          moods {
             slug
           }
         }
@@ -16,7 +16,7 @@ exports.createPages = async function ({ actions, graphql }) {
       }
     }
   `);
-  data.allContentfulPublication.nodes.forEach((node) => {
+  data?.allContentfulPublication.nodes.forEach((node) => {
     const slug = node.slug;
     actions.createPage({
       path: `catalogue/${slug}`,
@@ -24,19 +24,19 @@ exports.createPages = async function ({ actions, graphql }) {
       context: { slug: slug },
     });
   });
-  data.allContentfulMoodsCollection.nodes.forEach((node) => {
+  data?.allContentfulMoodsCollection.nodes.forEach((node) => {
     const collectionSlug = node.slug;
     actions.createPage({
       path: `catalogue/moods/${collectionSlug}`,
       component: require.resolve(`./src/templates/MoodsCollection.js`),
       context: { slug: collectionSlug },
     });
-    node.mood.forEach((innerNode) => {
+    node.moods.forEach((innerNode) => {
       const moodSlug = innerNode.slug;
       actions.createPage({
         path: `catalogue/moods/${collectionSlug}/${moodSlug}`,
         component: require.resolve(`./src/templates/Mood.js`),
-        context: { slug: moodSlug },
+        context: { slug: moodSlug, collectionSlug: collectionSlug },
       });
     });
   });
