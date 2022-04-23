@@ -4,6 +4,15 @@ import React, { useContext, useEffect, useState } from "react";
 import Helmet from "react-helmet";
 import { ColorContext } from "../contexts/ColorContext";
 import "../styles/styles.scss";
+// import { loadStripe } from "@stripe/stripe-js";
+
+// let stripePromise;
+// const getStripe = () => {
+//   if (!stripePromise) {
+//     stripePromise = loadStripe("<YOUR STRIPE PUBLISHABLE KEY>");
+//   }
+//   return stripePromise;
+// };
 
 export default function Layout({ children, title, description, page }) {
   const { color, arrangement, logoClick } = useContext(ColorContext);

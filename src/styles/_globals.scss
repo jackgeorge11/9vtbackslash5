@@ -91,12 +91,19 @@ body {
   }
 }
 
-a {
+a, button, .btn {
   color: $dark;
   text-decoration: none;
   font-weight: $thick;
   width: fit-content;
   @include trans;
+  outline: none;
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-family: $font;
+  cursor: pointer;
 
   &:hover {
     color: $light;
@@ -110,4 +117,24 @@ a {
 // CURSOR
 .pointer {
   cursor: pointer;
+}
+
+// LOADING
+
+@keyframes load {
+  from {
+    transform: scale(1.05);
+  }
+  to {
+    opacity: 0.8;
+  }
+}
+
+.loading {
+  text-align: center;
+  justify-self: center;
+  align-self: center;
+  transform-origin: center;
+  animation: load 0.3s ease-in-out alternate infinite;
+  padding-top: $g-lg;
 }

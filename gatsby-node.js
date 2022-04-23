@@ -12,16 +12,18 @@ exports.createPages = async function ({ actions, graphql }) {
       allContentfulPublication {
         nodes {
           slug
+          productId
         }
       }
     }
   `);
   data?.allContentfulPublication.nodes.forEach((node) => {
     const slug = node.slug;
+    const productId = node.productId;
     actions.createPage({
       path: `catalogue/${slug}`,
       component: require.resolve(`./src/templates/Publication.js`),
-      context: { slug: slug },
+      context: { slug: slug, productId: productId ? productId : "" },
     });
   });
   data?.allContentfulMoodsCollection.nodes.forEach((node) => {

@@ -38,9 +38,19 @@ export const ColorProvider = (props) => {
     rearrange();
   };
 
+  const [loading, setLoading] = useState(false);
+
   return (
     <ColorContext.Provider
-      value={{ color, changeColor, arrangement, rearrange, logoClick }}
+      value={{
+        color,
+        changeColor,
+        arrangement,
+        rearrange,
+        logoClick,
+        loading,
+        setLoading,
+      }}
     >
       {props.children}
     </ColorContext.Provider>

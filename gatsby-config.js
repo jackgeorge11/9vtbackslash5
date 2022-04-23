@@ -1,3 +1,7 @@
+require("dotenv").config({
+  path: ".env",
+});
+
 module.exports = {
   siteMetadata: {
     title: ``,
@@ -29,6 +33,14 @@ module.exports = {
       options: {
         spaceId: `6jqe8vb4wi8v`,
         accessToken: `XAyIkrlrr1xCeoBOICMMExIb26fR3P5V5Jn6gEPuMBs`,
+      },
+    },
+    {
+      resolve: `gatsby-source-stripe`,
+      options: {
+        objects: ["Price"],
+        secretKey: process.env.STRIPE_SECRET_KEY,
+        downloadFiles: false,
       },
     },
   ],

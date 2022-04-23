@@ -16,7 +16,9 @@
   },
   "dependencies": {
     "@contentful/rich-text-html-renderer": "^15.12.0",
+    "@stripe/stripe-js": "^1.29.0",
     "contentful": "^9.1.22",
+    "dotenv": "^16.0.0",
     "gatsby": "^4.12.1",
     "gatsby-plugin-image": "^2.12.1",
     "gatsby-plugin-manifest": "^4.12.1",
