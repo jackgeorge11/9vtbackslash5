@@ -35,13 +35,5 @@ module.exports = {
         accessToken: `XAyIkrlrr1xCeoBOICMMExIb26fR3P5V5Jn6gEPuMBs`,
       },
     },
-    {
-      resolve: `gatsby-source-stripe`,
-      options: {
-        objects: ["Price"],
-        secretKey: process.env.STRIPE_SECRET_KEY,
-        downloadFiles: false,
-      },
-    },
   ],
 };
