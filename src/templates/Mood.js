@@ -77,17 +77,20 @@ export default function Mood({ data }) {
       </h2>
       <h2>
         <Link to={`/catalogue/moods/${collection.slug}`}>click here</Link> to go
-        back to the collection, or{" "}
-        <Link to="/catalogue">click here</Link> to go back to our catalogue.
+        back to the collection, or <Link to="/catalogue">click here</Link> to go
+        back to our catalogue.
       </h2>
       <h1>details</h1>
       {mood.price && <h2 className="m-0">{`$${mood.price}`}</h2>}
       {mood.medium && <h2 className="m-0">{mood.medium}</h2>}
       {mood.size && <h2 className="m-0">{mood.size}</h2>}
-      <h2>
+      <h2 className="ta-right">
         <Link to={`/catalogue/moods/${collection.slug}`}>click here</Link> to go
-        back to the collection, or{" "}
-        <Link to="/catalogue">click here</Link> to go back to our catalogue.
+        back to the collection.
+      </h2>
+      <h2 className="ta-right">
+        or <Link to="/catalogue">click here</Link> to navigate back to our
+        catalogue.
       </h2>
     </Product>
   );

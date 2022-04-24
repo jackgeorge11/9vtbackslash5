@@ -75,6 +75,20 @@ body {
   }
 }
 
+@each $s, $n in $font-sizes {
+  .m-#{$s} {
+    margin: $n;
+  }
+  .my-#{$s} {
+    margin-top: $n;
+    margin-bottom: $n;
+  }
+  .mx-#{$s} {
+    margin-left: $n;
+    margin-right: $n;
+  }
+}
+
 // HEADERS
 
 @each $s, $n in $font-sizes {
@@ -91,7 +105,9 @@ body {
   }
 }
 
-a, button, .btn {
+a,
+button,
+.btn {
   color: $dark;
   text-decoration: none;
   font-weight: $thick;

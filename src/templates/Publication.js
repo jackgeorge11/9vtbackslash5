@@ -1,14 +1,14 @@
 import { graphql, Link } from "gatsby";
 import { getImage } from "gatsby-plugin-image";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Product from "../components/Product";
 import { renderRichText } from "gatsby-source-contentful/rich-text";
 import { BLOCKS, MARKS } from "@contentful/rich-text-types";
 import { ColorContext } from "../contexts/ColorContext";
-import getStripe from "../utils/stripe";
+import { PayPalButton } from "react-paypal-button-v2";
 
 export const query = graphql`
-  query ($slug: String!, $productId: String!) {
+  query ($slug: String!) {
     allContentfulPublication(filter: { slug: { eq: $slug } }) {
       nodes {
         author
@@ -27,30 +27,17 @@ export const query = graphql`
         coverDesign
         format
         genre
-        price
         pageCount
         isbn
         shipsFrom
         typesetting
-      }
-    }
-    allStripePrice(filter: { product: { id: { eq: $productId } } }) {
-      nodes {
-        product {
-          object
-          name
-          type
-          id
-          metadata {
-            shipping01
-            shipping02
-            shipping03
+        price
+        shipping {
+          internal {
+            content
           }
         }
-        unit_amount
-        currency
-        type
-        id
+        tax
       }
     }
   }
@@ -94,74 +81,199 @@ export default function Index({ data }) {
   const publication = data?.allContentfulPublication?.nodes?.[0];
   const description = publication?.description;
   const cover = getImage(publication?.cover);
-  const prices = data?.allStripePrice?.nodes;
-  console.log(prices);
 
   const { loading, setLoading } = useContext(ColorContext);
+  const [success, setSuccess] = useState(undefined);
 
-  const buy = async (price, e) => {
-    e.preventDefault();
-    setLoading(true);
-    const id = price.id;
-    const stripe = await getStripe();
-    const { error } = await stripe.redirectToCheckout({
-      mode: "payment",
-      lineItems: [{ id, quantity: 1 }],
-
-      successUrl: `${window.location.href}/page-2/`,
-      cancelUrl: `${window.location.href}/advanced`,
+  const getShippingOptions = (options) => {
+    let stripeShipping = [];
+    options?.forEach((option) => {
+      const parsed = JSON.parse(option?.internal?.content);
     });
-    if (error) {
-      console.warn("Error:", error);
-      setLoading(false);
-    }
+    return stripeShipping;
   };
 
-  console.log(window.location);
+  const [total, setTotal] = useState(
+    publication.price + publication.price * publication.tax
+  );
+  const [subtotal, setSubtotal] = useState(publication.price);
+  const [buyerOptions, setBuyerOptions] = useState({
+    quantity: 1,
+    shipping: "Select",
+  });
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    setBuyerOptions((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+    console.log(buyerOptions);
+  };
+
+  console.log(publication.shipping[Number(buyerOptions.shipping)]);
+
+  useEffect(() => {
+    setSubtotal(publication.price * Number(buyerOptions.quantity));
+  }, [buyerOptions.quantity]);
+
+  useEffect(() => {
+    setTotal(
+      subtotal +
+        subtotal * publication.tax +
+        (buyerOptions.shipping !== "Select"
+          ? JSON.parse(
+              publication.shipping[Number(buyerOptions.shipping)].internal
+                .content
+            ).cost
+          : 0)
+    );
+  }, [buyerOptions.shipping, subtotal]);
 
   return (
     <Product src={cover} alt={`${publication.title} cover`}>
       {loading ? (
         <h2 className="--muted loading">(loading)</h2>
+      ) : success ? (
+        <h2>{success}</h2>
       ) : (
         <>
           <h1 className="italic title">{publication.title}</h1>
           <h2 className="--muted ta-right author">by {publication.author}</h2>
           {description && renderRichText(description, options)}
-          {publication.soldOut && (
+          {publication.soldOut ? (
             <h2 className="--muted">this publication is sold out</h2>
+          ) : (
+            <>
+              <h1>purchase this publication</h1>
+              <h2 className="breakdown">
+                cost: <span>{formatPrice(publication.price, "USD")}</span>
+              </h2>
+              <h2 className="breakdown">
+                quantity:{" "}
+                <select
+                  name="quantity"
+                  value={buyerOptions.quantity}
+                  onChange={handleChange}
+                >
+                  <option value={1}>1</option>
+                  <option value={2}>2</option>
+                  <option value={3}>3</option>
+                </select>
+              </h2>
+              <h2 className="breakdown">
+                subtotal: <span>{formatPrice(subtotal, "USD")}</span>
+              </h2>
+              <h2 className="breakdown">
+                tax: <span>{publication.tax * 100}%</span>
+              </h2>
+              <h2 className="breakdown">
+                shipping:{" "}
+                <select
+                  name="shipping"
+                  onChange={handleChange}
+                  defaultValue="Select"
+                >
+                  <option value="Select" disabled>
+                    Select
+                  </option>
+                  {publication.shipping.map((option, i) => {
+                    const parsed = JSON.parse(option.internal.content);
+                    return (
+                      <option value={i}>
+                        {formatPrice(parsed.cost, "USD")} ~ shipping to{" "}
+                        {parsed.to}
+                      </option>
+                    );
+                  })}
+                </select>
+              </h2>
+              <h2 className="breakdown">
+                total: <span>{formatPrice(total, "USD")}</span>
+              </h2>
+              <div className="paypal-btn-wrapper">
+                <PayPalButton
+                  style={{ color: "black" }}
+                  options={{
+                    clientId: `${process.env.GATSBY_PAYAPL_CLIENT_ID}`,
+                  }}
+                  currency="USD"
+                  onError={(err) => {
+                    if (buyerOptions.shipping === "Select") {
+                      alert("Please select shipping.");
+                    } else {
+                      console.log(err);
+                    }
+                  }}
+                  createOrder={(data, actions) => {
+                    if (buyerOptions.shipping === "Select") {
+                      return null;
+                    } else {
+                      return actions.order.create({
+                        purchase_units: [
+                          {
+                            amount: {
+                              currency_code: "USD",
+                              value: (total / 100).toFixed(2),
+                              breakdown: {
+                                item_total: {
+                                  currency_code: "USD",
+                                  value: (subtotal / 100).toFixed(2),
+                                },
+                                shipping: {
+                                  currency_code: "USD",
+                                  value: (
+                                    JSON.parse(
+                                      publication.shipping[
+                                        Number(buyerOptions.shipping)
+                                      ].internal.content
+                                    ).cost / 100
+                                  ).toFixed(2),
+                                },
+                                tax_total: {
+                                  currency_code: "USD",
+                                  value: (
+                                    (subtotal * publication.tax) /
+                                    100
+                                  ).toFixed(2),
+                                },
+                              },
+                            },
+                            items: [
+                              {
+                                unit_amount: {
+                                  currency_code: "USD",
+                                  value: String(
+                                    (publication.price / 100).toFixed(2)
+                                  ),
+                                },
+                                quantity: buyerOptions.quantity,
+                                name: publication.title,
+                                description: publication.blurb
+                                  ? publication.blurb
+                                  : "",
+                              },
+                            ],
+                          },
+                        ],
+                      });
+                    }
+                  }}
+                  onApprove={(data, actions) => {
+                    // Capture the funds from the transaction
+                    return actions.order.capture().then(function (details) {
+                      setSuccess(
+                        `Thanks for your purchase, ${details.payer.name.given_name}.`
+                      );
+                    });
+                  }}
+                />
+              </div>
+            </>
           )}
-          <h2>
-            <button
-              className="under thick md"
-              onClick={(e) => buy(prices[0], e)}
-            >
-              buy this publication
-            </button>
-          </h2>
           <h1>details</h1>
-          {prices?.every((p) => p.unit_amount || p.unit_amount === 0) && (
-            <h2 className="m-0">
-              {formatPrice(prices[0].unit_amount, prices[0].currency)}
-            </h2>
-            // <h2 className="m-0">
-            //   {prices.length
-            //     ? prices.map((price, i) => {
-            //         if (i === prices.length - 1) {
-            //           formatPrice(price.unit_amount, price.currency);
-            //           return `${formatPrice(
-            //             price.unit_amount,
-            //             price.currency
-            //           )}`;
-            //         } else {
-            //           return `${formatPrice(
-            //             price.unit_amount,
-            //             price.currency
-            //           )} \\\\ `;
-            //         }
-            //       })
-            //     : formatPrice(prices[0]?.unit_amount, prices[0]?.currency)}
-            // </h2>
+          {publication.price && (
+            <h2 className="m-0">{formatPrice(publication.price, "USD")}</h2>
           )}
           {publication.shipsFrom && (
             <h2 className="m-0">ships from {publication.shipsFrom}</h2>
@@ -172,11 +284,11 @@ export default function Index({ data }) {
           {publication.typesetting && (
             <h2 className="m-0">typesetting by {publication.typesetting}</h2>
           )}
-          {publication.artwork && (
-            <h2 className="m-0">artwork by {publication.artwork}</h2>
-          )}
           {publication.coverDesign && (
             <h2 className="m-0">cover design by {publication.coverDesign}</h2>
+          )}
+          {publication.artwork && (
+            <h2 className="m-0">artwork by {publication.artwork}</h2>
           )}
           {publication.publisher && (
             <h2 className="m-0">printed by {publication.publisher}</h2>
@@ -192,11 +304,10 @@ export default function Index({ data }) {
           {publication.isbn && (
             <h2 className="m-0">ISBN: {publication.isbn}</h2>
           )}
-
           {publication.soldOut && (
             <h2 className="m-0 --muted">this publication is sold out</h2>
           )}
-          <h2>
+          <h2 className="ta-right">
             <Link to="/catalogue">click here</Link> to navigate back to our
             catalogue.
           </h2>

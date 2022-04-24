@@ -73,6 +73,14 @@ $g-sm: 0.5rem;
 $g-xsm: 0.25rem;
 $g-xxsm: 0.15rem;
 
+$gutters: (
+  lg: $g-lg,
+  md: $g-md,
+  sm: $g-sm,
+  xsm: $g-xsm,
+  xxsm: $g-xxsm,
+);
+
 // WINDOW SIZES
 $window-lg: 65%;
 $window-sm: 35%;
