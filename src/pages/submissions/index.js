@@ -1,9 +1,22 @@
-import { Link } from "gatsby";
+import { Link, graphql, useStaticQuery } from "gatsby";
 import React from "react";
 import Layout from "../../components/Layout";
 import Window from "../../components/Window";
 
-export default function index() {
+export default function Index() {
+  const { allContentfulOpenCall } = useStaticQuery(graphql`
+    query {
+      allContentfulOpenCall {
+        edges {
+          node {
+            title
+            slug
+          }
+        }
+      }
+    }
+  `);
+  console.log(allContentfulOpenCall);
   return (
     <Layout page="submissions">
       <Window className="small">
@@ -32,15 +45,11 @@ export default function index() {
           (this is where we list projects our team is currently working on, new
           and recurring.)
         </h2>
-        <Link to="/submissions/short-stories" className="m-0">
-          short stories
-        </Link>
-        <Link to="/submissions/poetry" className="m-0">
-          poetry
-        </Link>
-        <Link to="/submissions/moods" className="m-0">
-          self-portraits (moods collections)
-        </Link>
+        {allContentfulOpenCall.edges.map((call) => (
+          <Link to={`/submissions/${call.node.slug}`} className="m-0">
+            {call.node.title}
+          </Link>
+        ))}
       </Window>
     </Layout>
   );

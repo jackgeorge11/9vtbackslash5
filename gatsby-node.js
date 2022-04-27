@@ -1,6 +1,11 @@
 exports.createPages = async function ({ actions, graphql }) {
   const { data } = await graphql(`
     query {
+      allContentfulPublication {
+        nodes {
+          slug
+        }
+      }
       allContentfulMoodsCollection {
         nodes {
           slug
@@ -9,21 +14,19 @@ exports.createPages = async function ({ actions, graphql }) {
           }
         }
       }
-      allContentfulPublication {
+      allContentfulOpenCall {
         nodes {
           slug
-          productId
         }
       }
     }
   `);
   data?.allContentfulPublication.nodes.forEach((node) => {
     const slug = node.slug;
-    const productId = node.productId;
     actions.createPage({
       path: `catalogue/${slug}`,
       component: require.resolve(`./src/templates/Publication.js`),
-      context: { slug: slug, productId: productId ? productId : "" },
+      context: { slug: slug },
     });
   });
   data?.allContentfulMoodsCollection.nodes.forEach((node) => {
@@ -40,6 +43,14 @@ exports.createPages = async function ({ actions, graphql }) {
         component: require.resolve(`./src/templates/Mood.js`),
         context: { slug: moodSlug, collectionSlug: collectionSlug },
       });
+    });
+  });
+  data?.allContentfulOpenCall.nodes.forEach((node) => {
+    const slug = node.slug;
+    actions.createPage({
+      path: `submissions/${slug}`,
+      component: require.resolve(`./src/templates/OpenCall.js`),
+      context: { slug: slug },
     });
   });
 };
