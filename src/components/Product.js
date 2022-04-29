@@ -1,26 +1,39 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Layout from "./Layout";
 import Window from "./Window";
 import { GatsbyImage, StaticImage } from "gatsby-plugin-image";
 import { ColorContext } from "../contexts/ColorContext";
+import { Link } from "gatsby";
 
-export default function Product({ children, src, alt, url }) {
-  // const [closer, setCloser] = useState(false);
-  const [zoom, setZoom] = useState(false);
-
+export default function Product({
+  children,
+  src,
+  alt,
+  title,
+  description,
+  additional,
+}) {
   const { color } = useContext(ColorContext);
 
-  if (zoom) {
+  const [path, setPath] = useState(undefined);
+  const [hash, setHash] = useState(undefined);
+
+  useEffect(() => {
+    setPath(window.location.pathname);
+    setHash(window.location.hash);
+  }, []);
+
+  if (hash) {
     return (
       <div className="zoom" style={{ backgroundColor: color }}>
         <div className="image">
-          <img src={url} alt={alt} />
+          <GatsbyImage image={src} alt={alt} />
         </div>
         <div className="back">
           <h2>
-            <a className="thick under pointer" onClick={() => setZoom(false)}>
+            <Link className="thick under pointer" to={path}>
               click here
-            </a>{" "}
+            </Link>{" "}
             to go back to the details.
           </h2>
         </div>
@@ -28,11 +41,16 @@ export default function Product({ children, src, alt, url }) {
     );
   } else {
     return (
-      <Layout page="catalogue">
+      <Layout
+        page="catalogue"
+        title={title}
+        description={description}
+        additional={additional}
+      >
         <div className="product">
-          <div className="image pointer" onClick={() => setZoom(true)}>
+          <Link className="image image-desktop pointer" to={`${path}#zoom`}>
             <GatsbyImage image={src} alt={alt} />
-          </div>
+          </Link>
           <Window className="small">{children}</Window>
         </div>
       </Layout>

@@ -5,17 +5,28 @@ import { ColorContext } from "../contexts/ColorContext";
 function Window({ children, className }) {
   const { color } = useContext(ColorContext);
 
-  const window = useRef();
+  const _window = useRef();
   const [height, setHeight] = useState("");
   const [width, setWidth] = useState("");
 
   useEffect(() => {
-    setHeight(`${window?.current?.scrollHeight}px`);
-    setWidth(`${window?.current?.scrollWidth}px`)
-  }, [window, color]);
+    setHeight(`${_window?.current?.scrollHeight}px`);
+    setWidth(`${_window?.current?.scrollWidth}px`);
+  }, [_window, color]);
+
+  useEffect(() => {
+    function handleResize() {
+      setHeight(`${_window?.current?.scrollHeight}px`);
+      setWidth(`${_window?.current?.scrollWidth}px`);
+    }
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
-    <div className={`window ${className}`} ref={window}>
+    <div className={`window ${className}`} ref={_window}>
       <div
         className="window-bg"
         style={{

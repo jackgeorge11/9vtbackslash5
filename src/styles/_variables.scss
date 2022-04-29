@@ -82,8 +82,16 @@ $gutters: (
 );
 
 // WINDOW SIZES
-$window-lg: 65%;
-$window-sm: 35%;
+$window-lg-desktop: 65%;
+$window-lg-tablet: 92%;
+$window-lg-min-desktop: 700px;
+$window-sm-desktop: 35%;
+$window-sm-tablet: 60%;
+$window-sm-mobile: 90%;
+$window-sm-min-desktop: 450px;
+$window-sm-min-tablet: 375px;
+
+$window-height: 300px;
 
 // MEDIA
 $screen-sm: 500px;

@@ -6,7 +6,11 @@ import Window from "../../components/Window";
 export default function index() {
   return (
     <div>
-      <Layout page="inquiries">
+      <Layout
+        page="inquiries"
+        title="inquiries"
+        description="contact us if you have any questions about what we do or how you can get involved."
+      >
         <Window className="small">
           <h1>inquiries</h1>
           <h2>

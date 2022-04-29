@@ -18,7 +18,11 @@ export default function Index() {
   `);
   console.log(allContentfulOpenCall);
   return (
-    <Layout page="submissions">
+    <Layout
+      page="submissions"
+      title="submissions"
+      description="find out everything you need to know about releasing or publishing your work with 9VT\5."
+    >
       <Window className="small">
         <h1>submissions</h1>
         <h2>

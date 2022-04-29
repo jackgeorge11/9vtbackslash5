@@ -5,7 +5,11 @@ import Window from "../components/Window";
 
 export default function NotFoundPage() {
   return (
-    <Layout page="404">
+    <Layout
+      page="404"
+      title="page not found"
+      additional={[{ name: "robots", content: "noindex" }]}
+    >
       <Window className="small">
         <h1>404 \\ this page does not exist</h1>
         <h2>

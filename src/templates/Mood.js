@@ -11,7 +11,7 @@ export const query = graphql`
       nodes {
         isSold
         photo {
-          gatsbyImageData
+          gatsbyImageData(placeholder: DOMINANT_COLOR)
         }
         price
         slug
@@ -66,7 +66,12 @@ export default function Mood({ data }) {
   const collectionDescription = collection.description;
 
   return (
-    <Product src={src} alt={mood.title}>
+    <Product
+      src={src}
+      alt={mood.title}
+      title={mood.title}
+      description={`${mood.title} from ${mood.artist}'s Moods collection.`}
+    >
       <h1 className="italic title">{mood.title}</h1>
       <h2 className="--muted ta-right author">by {collection.artist}</h2>
       {description && renderRichText(description, options)}

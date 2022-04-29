@@ -1,11 +1,12 @@
 import { graphql, Link } from "gatsby";
-import { getImage } from "gatsby-plugin-image";
+import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import React, { useContext, useEffect, useState } from "react";
 import Product from "../components/Product";
 import { renderRichText } from "gatsby-source-contentful/rich-text";
 import { BLOCKS, MARKS } from "@contentful/rich-text-types";
 import { ColorContext } from "../contexts/ColorContext";
 import { PayPalButton } from "react-paypal-button-v2";
+import moment from "moment";
 
 export const query = graphql`
   query ($slug: String!) {
@@ -16,8 +17,7 @@ export const query = graphql`
           raw
         }
         cover {
-          gatsbyImageData
-          publicUrl
+          gatsbyImageData(placeholder: DOMINANT_COLOR)
         }
         slug
         soldOut
@@ -38,6 +38,9 @@ export const query = graphql`
           }
         }
         tax
+        saleEnded
+        preorder
+        preorderShipDate
       }
     }
   }
@@ -111,8 +114,6 @@ export default function Index({ data }) {
     console.log(buyerOptions);
   };
 
-  console.log(publication.shipping[Number(buyerOptions.shipping)]);
-
   useEffect(() => {
     setSubtotal(publication.price * Number(buyerOptions.quantity));
   }, [buyerOptions.quantity]);
@@ -131,7 +132,16 @@ export default function Index({ data }) {
   }, [buyerOptions.shipping, subtotal]);
 
   return (
-    <Product src={cover} alt={`${publication.title} cover`}>
+    <Product
+      src={cover}
+      alt={`${publication.title} cover`}
+      title={`${publication.title}, by ${publication.author}`}
+      description={`${publication.title}, by ${publication.author}. ${
+        publication.genre
+          ? `${publication.genre} published in ${publication.format}.`
+          : `published in ${publication.format}.`
+      } ${formatPrice(publication.price, "USD")}.`}
+    >
       {loading ? (
         <h2 className="--muted loading">(loading)</h2>
       ) : success ? (
@@ -141,11 +151,29 @@ export default function Index({ data }) {
           <h1 className="italic title">{publication.title}</h1>
           <h2 className="--muted ta-right author">by {publication.author}</h2>
           {description && renderRichText(description, options)}
+          <div className="image image-mobile">
+            <GatsbyImage image={cover} alt={`${publication.title} cover`} />
+          </div>
           {publication.soldOut ? (
             <h2 className="--muted">this publication is sold out</h2>
+          ) : publication.saleEnded ? (
+            <h2 className="--muted">sales for this publication have ended</h2>
           ) : (
             <>
-              <h1>purchase this publication</h1>
+              {publication.preorder &&
+                moment(publication.preorderShipDate).isAfter(moment()) && (
+                  <h2 className="--muted">
+                    this publication will ship from{" "}
+                    {moment(publication.preorderShipDate).format("MMMM Do")}
+                  </h2>
+                )}
+              <h1>
+                {publication.preorder &&
+                moment(publication.preorderShipDate).isAfter(moment())
+                  ? "preorder"
+                  : "purchase"}{" "}
+                this publication
+              </h1>
               <h2 className="breakdown">
                 cost: <span>{formatPrice(publication.price, "USD")}</span>
               </h2>

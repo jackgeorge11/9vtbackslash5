@@ -1,8 +1,8 @@
 .window {
   @include border;
   padding: $g-sm;
-  min-height: 300px;
-  max-height: 300px;
+  min-height: $window-height;
+  max-height: $window-height;
   display: flex;
   flex-direction: column;
   background-color: $light;
@@ -23,24 +23,29 @@
   }
 
   &.small {
-    width: $window-sm;
+    width: $window-sm-desktop;
+    min-width: $window-sm-min-desktop;
     overflow-x: hidden;
     overflow-y: scroll;
 
     @include media($s: $screen-md) {
-      width: 60%;
+      width: $window-sm-tablet;
+      min-width: $window-sm-min-tablet;
     }
     @include media {
-      width: 75%;
+      width: $window-sm-mobile;
+      min-width: auto;
     }
   }
   &.large {
-    width: $window-lg;
+    width: $window-lg-desktop;
+    min-width: $window-lg-min-desktop;
     overflow-y: hidden;
     overflow-x: scroll;
 
     @include media($s: $screen-md) {
-      width: 87.5%;
+      width: $window-lg-tablet;
+      min-width: auto;
     }
   }
 

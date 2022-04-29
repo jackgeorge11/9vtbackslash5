@@ -44,16 +44,24 @@ export default function OpenCall({ data }) {
   const call = data?.allContentfulOpenCall.nodes[0];
 
   return (
-    <Layout page="submissions">
+    <Layout
+      page="submissions"
+      title={`submissions | ${call.title}`}
+      description={`submissions: we currently have an open call for ${call.title}. learn more about how to submit your work.`}
+    >
       <Window className="small">
         {call.description && renderRichText(call.description, options)}
         <h2>
           submit your work or any questions you might have to{" "}
           <a href="mailto:submissions@9vtbackslash5.com">
             submissions@9vtbackslash5.com
-          </a>.
+          </a>
+          .
         </h2>
-        <h2 className="ta-right"><Link to="/submissions">click here</Link> to navigate back to our submissions page.</h2>
+        <h2 className="ta-right">
+          <Link to="/submissions">click here</Link> to navigate back to our
+          submissions page.
+        </h2>
       </Window>
     </Layout>
   );

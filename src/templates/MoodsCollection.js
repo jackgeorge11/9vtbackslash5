@@ -22,7 +22,11 @@ export const query = graphql`
           slug
           title
           photo {
-            gatsbyImageData
+            gatsbyImageData(
+              layout: FIXED
+              height: 300
+              placeholder: DOMINANT_COLOR
+            )
           }
         }
       }
@@ -74,7 +78,11 @@ export default function MoodsCollection({ data }) {
   const randomMoods = shuffle(collection.moods);
 
   return (
-    <Layout page="catalogue">
+    <Layout
+      page="catalogue"
+      title={`Moods by ${collection.title}`}
+      description={`${collection.artist}'s Moods collection. Released ${collection.releaseDate}.`}
+    >
       <Window className="large catalogue">
         <div className="description">
           <h1 className="title italic">Moods</h1>
@@ -84,7 +92,7 @@ export default function MoodsCollection({ data }) {
           {collection.saleEnded && (
             <h2 className="--muted">sale has ended for this collection.</h2>
           )}
-          <h2 className="--muted">(scroll -->)</h2>
+          <h2 className="--muted scroll">(scroll -->)</h2>
         </div>
         {randomMoods.map((mood) => {
           return (

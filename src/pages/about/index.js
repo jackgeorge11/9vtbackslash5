@@ -6,7 +6,11 @@ import Window from "../../components/Window";
 export default function index() {
   return (
     <div>
-      <Layout page="about">
+      <Layout
+        page="about"
+        title="about"
+        about="about us: 9VT\5, also 9vtbackslash5, is an independent publishing house and creative platform for artists, authors, and others."
+      >
         <Window className="small about">
           <h1>about</h1>
           <h2>
@@ -57,6 +61,9 @@ export default function index() {
             <div className="member">
               <div>
                 <h2>Jack George</h2>
+                <a href="mailto:jack@9vtbackslash5.com">
+                  jack@9vtbackslash5.com
+                </a>
                 <h2 className="--muted">(founder)</h2>
               </div>
               <div className="sketch">
@@ -66,6 +73,9 @@ export default function index() {
             <div className="member">
               <div>
                 <h2>Isabella Greenwood</h2>
+                <a href="mailto:isabella@9vtbackslash5.com">
+                  isabella@9vtbackslash5.com
+                </a>
                 <h2 className="--muted">(creative-director)</h2>
               </div>
               <div className="sketch">
@@ -78,6 +88,9 @@ export default function index() {
             <div className="member">
               <div>
                 <h2>Marlon Webster Paine</h2>
+                <a href="mailto:marlon@9vtbackslash5.com">
+                  marlon@9vtbackslash5.com
+                </a>
                 <h2 className="--muted">(editor-in-chief)</h2>
               </div>
               <div className="sketch">

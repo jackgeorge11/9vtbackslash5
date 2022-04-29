@@ -21,6 +21,26 @@
       h2 {
         max-width: 60%;
 
+        &.scroll {
+          @keyframes attend {
+            0% {
+              transform: translateX(0);
+            }
+            60% {
+              transform: translateX(0);
+            }
+            80% {
+              transform: translateX(5px);
+            }
+            100% {
+              transform: translateX(0);
+            }
+          }
+
+          transform-origin: 0 center;
+          animation: attend 1.5s 1s ease-in-out infinite;
+        }
+
         &.author {
           margin: 0 0 $g-md;
           max-width: none;
@@ -31,7 +51,7 @@
     .idea {
       @include center;
       height: 100%;
-      margin: 0 $g-lg;
+      padding: 0 $g-lg;
       flex-shrink: 0;
       width: fit-content;
 
@@ -41,11 +61,14 @@
         max-height: 100%;
 
         div {
-          height: 100%;
+          height: 100% !important;
+          max-height: 100% !important;
         }
 
         img {
-          width: fit-content !important;
+          // width: fit-content !important;
+          height: 100% !important;
+          max-height: 100% !important;
         }
       }
 

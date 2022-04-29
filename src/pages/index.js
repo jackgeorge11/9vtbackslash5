@@ -9,11 +9,11 @@ export default function IndexPage() {
   return (
     <Layout
       title="9VT\5"
-      description="9VT\5 -- also 9vtbackslash5 -- is an independent publishing house and creative platform for artists, authors, and others."
+      description="9VT\5, also 9vtbackslash5, is an independent publishing house and creative platform for artists, authors, and others. We love putting novel ideas into the world, from books to collections of art."
       page="home"
     >
       <div className="home-logo w-30 pointer" onClick={logoClick}>
-        <StaticImage src="../assets/brand/logo.png" alt="logo"/>
+        <StaticImage src="../assets/brand/logo.png" alt="logo" />
       </div>
     </Layout>
   );

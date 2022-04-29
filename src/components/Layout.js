@@ -14,7 +14,13 @@ import "../styles/styles.scss";
 //   return stripePromise;
 // };
 
-export default function Layout({ children, title, description, page }) {
+export default function Layout({
+  children,
+  title,
+  description,
+  page,
+  additional,
+}) {
   const { color, arrangement, logoClick } = useContext(ColorContext);
 
   const getNav = (page, slot) => {
@@ -77,6 +83,10 @@ export default function Layout({ children, title, description, page }) {
         <title>{title}</title>
         <meta name="description" content={description} />
         <style type="text/css">{`body {background-color: ${color}}`}</style>
+        {additional &&
+          additional.map((tag) => (
+            <meta name={tag.name} content={tag.content} />
+          ))}
       </Helmet>
       {arrangement ? (
         arrangements.map((a, i) => {

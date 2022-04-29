@@ -3,6 +3,8 @@ import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import React from "react";
 import Layout from "../../components/Layout";
 import Window from "../../components/Window";
+import moment from "moment";
+import { isSafari } from "react-device-detect";
 
 export default function Index() {
   const getMood = () => {
@@ -17,11 +19,16 @@ export default function Index() {
             ... on ContentfulMoodsCollection {
               moods {
                 photo {
-                  gatsbyImageData
+                  gatsbyImageData(
+                    layout: FIXED
+                    height: 300
+                    placeholder: DOMINANT_COLOR
+                  )
+                  publicUrl
                 }
               }
               slug
-              releaseDate(formatString: "MMMM YYYY")
+              releaseDate
               artist
               internal {
                 type
@@ -31,9 +38,15 @@ export default function Index() {
               slug
               author
               cover {
-                gatsbyImageData
+                gatsbyImageData(
+                  layout: FIXED
+                  height: 300
+                  placeholder: DOMINANT_COLOR
+                )
+                height
+                width
               }
-              releaseDate(formatString: "MMMM YYYY")
+              releaseDate
               internal {
                 type
               }
@@ -47,22 +60,29 @@ export default function Index() {
 
   const sortCatalogue = (catalogue) => {
     return catalogue.sort(function (a, b) {
-      return new Date(b.releaseDate) - new Date(a.releaseDate);
+      return (
+        moment(b.releaseDate).format("YYYYMMDD") -
+        moment(a.releaseDate).format("YYYYMMDD")
+      );
     });
   };
 
   const sortedCatalogue = sortCatalogue(allContentfulCatalogue.nodes[0].items);
 
-  console.log(sortedCatalogue[1].moods?.[getMood()]);
+  console.log(isSafari);
 
   return (
     <div>
-      <Layout page="catalogue">
+      <Layout
+        page="catalogue"
+        title="catalogue"
+        description="discover everything we've put into the world, from books to collections of art."
+      >
         <Window className="large catalogue">
           <div className="description">
             <h1>catalogue</h1>
             <h2>discover everything 9VT\5 has put into the world.</h2>
-            <h2 className="--muted">(scroll -->)</h2>
+            <h2 className="--muted scroll">(scroll -->)</h2>
           </div>
           {sortedCatalogue?.map((item, i) => {
             return (
@@ -110,7 +130,7 @@ export default function Index() {
                       ? item.artist
                       : item.author}
                   </h2>
-                  <h3>{item.releaseDate}</h3>
+                  <h3>{moment(item.releaseDate).format("MMM YYYY")}</h3>
                 </div>
               </div>
             );
