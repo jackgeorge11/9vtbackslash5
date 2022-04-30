@@ -29,7 +29,6 @@ export const query = graphql`
         genre
         pageCount
         isbn
-        shipsFrom
         typesetting
         price
         shipping {
@@ -41,6 +40,7 @@ export const query = graphql`
         saleEnded
         preorder
         preorderShipDate
+        copies
       }
     }
   }
@@ -145,7 +145,32 @@ export default function Index({ data }) {
       {loading ? (
         <h2 className="--muted loading">(loading)</h2>
       ) : success ? (
-        <h2>{success}</h2>
+        <>
+          <h2>{success}</h2>
+          <h2>nearly 100% of proceeds go to the author(s).</h2>
+          <h2>
+            if you have any questions about your purchase, email us at{" "}
+            <a href="mailto:transactions@9vtbackslash5.com">
+              transactions@9vtbackslash5.com
+            </a>
+            .
+          </h2>
+          <h2 className="ta-right">
+            <Link to="/catalogue">click here</Link> to navigate back to our
+            catalogue.
+          </h2>
+          <h2 className="ta-right">
+            or{" "}
+            <a
+              href="https://instagram.com/9vtbackslash5"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              click here
+            </a>{" "}
+            to checkout our Instagram.
+          </h2>
+        </>
       ) : (
         <>
           <h1 className="italic title">{publication.title}</h1>
@@ -154,6 +179,11 @@ export default function Index({ data }) {
           <div className="image image-mobile">
             <GatsbyImage image={cover} alt={`${publication.title} cover`} />
           </div>
+          {publication.copies && (
+            <h2 className="--muted">
+              this edition is limited to {publication.copies} copies.
+            </h2>
+          )}
           {publication.soldOut ? (
             <h2 className="--muted">this publication is sold out</h2>
           ) : publication.saleEnded ? (
@@ -223,7 +253,7 @@ export default function Index({ data }) {
                 <PayPalButton
                   style={{ color: "black" }}
                   options={{
-                    clientId: `${process.env.GATSBY_PAYAPL_CLIENT_ID}`,
+                    clientId: `${process.env.GATSBY_PAYAPL_SANDBOX_ID}`,
                   }}
                   currency="USD"
                   onError={(err) => {
@@ -300,14 +330,8 @@ export default function Index({ data }) {
             </>
           )}
           <h1>details</h1>
-          {publication.price && (
-            <h2 className="m-0">{formatPrice(publication.price, "USD")}</h2>
-          )}
-          {publication.shipsFrom && (
-            <h2 className="m-0">ships from {publication.shipsFrom}</h2>
-          )}
           {publication.editors && (
-            <h2 className="m-0">typesetting by {publication.typesetting}</h2>
+            <h2 className="m-0">edited by {publication.editors}</h2>
           )}
           {publication.typesetting && (
             <h2 className="m-0">typesetting by {publication.typesetting}</h2>
@@ -332,8 +356,19 @@ export default function Index({ data }) {
           {publication.isbn && (
             <h2 className="m-0">ISBN: {publication.isbn}</h2>
           )}
+          {publication.price && (
+            <h2 className="m-0">{formatPrice(publication.price, "USD")}</h2>
+          )}
+          {publication.copies && (
+            <h2 className="m-0">limited to {publication.copies} copies</h2>
+          )}
           {publication.soldOut && (
             <h2 className="m-0 --muted">this publication is sold out</h2>
+          )}
+          {publication.saleEnded && (
+            <h2 className="m-0 --muted">
+              sales for this publication have ended
+            </h2>
           )}
           <h2 className="ta-right">
             <Link to="/catalogue">click here</Link> to navigate back to our

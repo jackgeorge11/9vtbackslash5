@@ -148,10 +148,10 @@ export default function Layout({
       {children}
       {page !== "home" ? (
         <>
-          <div className="w-20 half-logo right pointer" onClick={logoClick}>
+          <div className="w-20 half-logo right pointer" onClick={logoClick} role="button">
             <StaticImage src="../assets/brand/logo.png" alt="logo" />
           </div>
-          <div className="w-20 half-logo left pointer" onClick={logoClick}>
+          <div className="w-20 half-logo left pointer" onClick={logoClick} role="button">
             <StaticImage src="../assets/brand/logo.png" alt="logo" />
           </div>
         </>

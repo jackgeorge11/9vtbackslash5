@@ -8,11 +8,25 @@ export const ColorProvider = (props) => {
 
   const changeColor = () => {
     const letters = "0123456789ABCDEF";
-    let color = "#";
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
+    let color = [];
+    for (let i = 0; i < 3; i++) {
+      color.push(Math.floor(Math.random() * 255));
     }
-    setColor(color + "33");
+    var values = `rgba(${color[0]}, ${color[1]}, ${color[2]}, .2)`
+      .replace(/rgba?\(/, "")
+      .replace(/\)/, "")
+      .replace(/[\s+]/g, "")
+      .split(",");
+    var a = parseFloat(values[3] || 1),
+      r = Math.floor(a * parseInt(values[0]) + (1 - a) * 255),
+      g = Math.floor(a * parseInt(values[1]) + (1 - a) * 255),
+      b = Math.floor(a * parseInt(values[2]) + (1 - a) * 255);
+    setColor(
+      "#" +
+        ("0" + r.toString(16)).slice(-2) +
+        ("0" + g.toString(16)).slice(-2) +
+        ("0" + b.toString(16)).slice(-2)
+    );
   };
 
   const rearrange = () => {

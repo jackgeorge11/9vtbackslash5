@@ -8,15 +8,7 @@
   background-color: $light;
   position: relative;
   z-index: 10;
-
-  .window-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    content: "";
-    z-index: -1;
-    @include trans;
-  }
+  @include trans;
 
   @include media {
     width: 90%;

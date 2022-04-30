@@ -26,7 +26,7 @@ export default function index() {
             manifestations of visual artists to the publication of academic
             theses.
           </h2>
-          <h2>
+          <h2 className="ta-right">
             <a
               href="https://instagram.com/9vtbackslash5"
               target="_blank"

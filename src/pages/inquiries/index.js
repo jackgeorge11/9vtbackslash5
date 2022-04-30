@@ -22,6 +22,33 @@ export default function index() {
             of Nico, our favorite dog, from Marlon? find their emails{" "}
             <Link to="/about">here</Link>.
           </h2>
+          <h2>
+            interested in submitting your work? find all submissions-related
+            information <Link to="/submissions">here</Link>, unless you already
+            know what you're doing, in which case email us at{" "}
+            <a href="mailto:submissions@9vtbackslash5.com">
+              submissions@9vtbackslash5.com
+            </a>
+            .
+          </h2>
+          <h2>
+            have any questions about a transaction? email{" "}
+            <a href="mailto:transactions@9vtbackslash5.com">
+              transactions@9vtbackslash5.com
+            </a>
+            .
+          </h2>
+          <h2>
+            fancy hitting us up on Instagram? find us at{" "}
+            <a
+              href="https://instagram.com/9vtbackslash5"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              @9vtbackslash5
+            </a>
+            .
+          </h2>
         </Window>
       </Layout>
     </div>
