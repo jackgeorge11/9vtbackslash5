@@ -1,0 +1,5 @@
+{
+    "componentChunkName": "component---src-templates-open-call-js",
+    "path": "/submissions/poetry",
+    "result": {"data":{"allContentfulOpenCall":{"nodes":[{"slug":"poetry","description":{"raw":"{\"data\":{},\"content\":[{\"data\":{},\"content\":[{\"data\":{},\"marks\":[],\"value\":\"call to submissions: poetry\",\"nodeType\":\"text\"}],\"nodeType\":\"heading-1\"},{\"data\":{},\"content\":[{\"data\":{},\"marks\":[],\"value\":\"we are putting together our first poetry collection, which we aim to publish by the end of the year.\",\"nodeType\":\"text\"}],\"nodeType\":\"heading-2\"},{\"data\":{},\"content\":[{\"data\":{},\"marks\":[],\"value\":\"there are no rules as to what length or genre submissions should conform, however we prefer each contributor's section be a several pages long, be that one long submission or a dozen smaller ones.\",\"nodeType\":\"text\"}],\"nodeType\":\"heading-2\"},{\"data\":{},\"content\":[{\"data\":{},\"marks\":[],\"value\":\"\",\"nodeType\":\"text\"}],\"nodeType\":\"paragraph\"}],\"nodeType\":\"document\"}"}}]}},"pageContext":{"slug":"poetry"}},
+    "staticQueryHashes": []}
