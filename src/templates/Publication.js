@@ -253,7 +253,7 @@ export default function Index({ data }) {
                 <PayPalButton
                   style={{ color: "black" }}
                   options={{
-                    clientId: `${process.env.GATSBY_PAYAPL_SANDBOX_ID}`,
+                    clientId: `${process.env.GATSBY_PAYAPL_CLIENT_ID}`,
                   }}
                   currency="USD"
                   onError={(err) => {
