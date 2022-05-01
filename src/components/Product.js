@@ -12,6 +12,7 @@ export default function Product({
   title,
   description,
   additional,
+  scroller
 }) {
   const { color } = useContext(ColorContext);
 
@@ -51,7 +52,7 @@ export default function Product({
           <Link className="image image-desktop pointer" to={`${path}#zoom`}>
             <GatsbyImage image={src} alt={alt} />
           </Link>
-          <Window className="small">{children}</Window>
+          <Window className="small" scroller={scroller}>{children}</Window>
         </div>
       </Layout>
     );

@@ -1,6 +1,6 @@
 import { graphql, Link } from "gatsby";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Product from "../components/Product";
 import { renderRichText } from "gatsby-source-contentful/rich-text";
 import { BLOCKS, MARKS } from "@contentful/rich-text-types";
@@ -132,6 +132,10 @@ export default function Index({ data }) {
     );
   }, [buyerOptions.shipping, subtotal]);
 
+  const shipping = useRef();
+  const publicationWindow = useRef();
+  const [shippingError, setShippingError] = useState(false);
+
   return (
     <Product
       src={cover}
@@ -142,6 +146,7 @@ export default function Index({ data }) {
           ? `${publication.genre} published in ${publication.format}.`
           : `published in ${publication.format}.`
       } ${formatPrice(publication.price, "USD")}.`}
+      scroller={publicationWindow}
     >
       {loading ? (
         <h2 className="--muted loading">(loading)</h2>
@@ -226,12 +231,19 @@ export default function Index({ data }) {
               <h2 className="breakdown">
                 tax: <span>{publication.tax * 100}%</span>
               </h2>
-              <h2 className="breakdown">
+              <h2
+                className={
+                  shippingError ? "breakdown thick --warning" : "breakdown"
+                }
+                ref={shipping}
+                onClick={() => console.log(shipping, publicationWindow)}
+              >
                 shipping:{" "}
                 <select
                   name="shipping"
                   onChange={handleChange}
                   defaultValue="Select"
+                  className={shippingError ? "--warning" : ""}
                 >
                   <option value="Select" disabled>
                     Select
@@ -266,6 +278,11 @@ export default function Index({ data }) {
                   }}
                   createOrder={(data, actions) => {
                     if (buyerOptions.shipping === "Select") {
+                      if (publicationWindow?.current) {
+                        setShippingError(true);
+                        publicationWindow.current.scrollTop =
+                          shipping?.current?.offsetTop - 10;
+                      }
                       return null;
                     } else {
                       return actions.order.create({

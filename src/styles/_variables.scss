@@ -37,11 +37,13 @@ $font-weights: (
 $light: #ffffff;
 $dark: #000000;
 $muted: #00000055;
+$warning: rgb(255, 0, 0);
 
 $colors: (
   light: $light,
   dark: $dark,
   muted: $muted,
+  warning: $warning,
 );
 
 // TRANSITIONS

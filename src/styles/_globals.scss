@@ -162,3 +162,12 @@ button,
   animation: load 0.3s ease-in-out alternate infinite;
   padding-top: $g-lg;
 }
+
+// ERROR HANDLING
+
+input, textarea, select {
+  &.--warning {
+    border-color: $warning;
+    outline: $warning;
+  }
+}

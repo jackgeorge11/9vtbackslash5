@@ -9,6 +9,7 @@
   position: relative;
   z-index: 10;
   @include trans;
+  scroll-behavior: smooth;
 
   @include media {
     width: 90%;
