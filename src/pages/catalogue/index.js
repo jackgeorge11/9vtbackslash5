@@ -79,11 +79,23 @@ export default function Index() {
         description="discover everything we've put into the world, from books to collections of art."
       >
         <Window className="large catalogue" scroller={scroller}>
-          <div className="description">
+          {/* <div className="description">
             <h1>catalogue</h1>
             <h2>discover everything 9VT\5 has put into the world.</h2>
-            <h2 className="--muted scroll pointer" onClick={scroller && scroller.current ? () => scroller.current.scrollLeft = scroller.current.clientWidth + 40 : null}>(scroll -->)</h2>
-          </div>
+            <h2 className="--muted scroll pointer" onClick={scroller && scroller.current ? () => scroller.current.scrollLeft = scroller.current.clientWidth / 2 : null}>(scroll -->)</h2>
+          </div> */}
+          <h2
+            className="--muted scroll pointer"
+            onClick={
+              scroller && scroller.current
+                ? () =>
+                    (scroller.current.scrollLeft =
+                      scroller.current.clientWidth / 2)
+                : null
+            }
+          >
+            (scroll -->)
+          </h2>
           {sortedCatalogue?.map((item, i) => {
             return (
               <div className="idea">
