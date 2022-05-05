@@ -78,7 +78,11 @@ export default function Index() {
         title="catalogue"
         description="discover everything we've put into the world, from books to collections of art."
       >
-        <Window className="large catalogue" scroller={scroller}>
+        <Window
+          className="large catalogue"
+          scroller={scroller}
+          crumbs={[{ title: "catalogue", slug: "/catalogue" }]}
+        >
           {/* <div className="description">
             <h1>catalogue</h1>
             <h2>discover everything 9VT\5 has put into the world.</h2>

@@ -11,7 +11,7 @@ export default function index() {
         title="inquiries"
         description="contact us if you have any questions about what we do or how you can get involved."
       >
-        <Window className="small">
+        <Window className="small" crumbs={[{title: "submissions"}]}>
           <h1>inquiries</h1>
           <h2>
             have any questions, or simply want to say hello? email us at{" "}

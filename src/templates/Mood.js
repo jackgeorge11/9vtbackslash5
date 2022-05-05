@@ -71,6 +71,18 @@ export default function Mood({ data }) {
       alt={mood.title}
       title={mood.title}
       description={`${mood.title} from ${mood.artist}'s Moods collection.`}
+      crumbs={[
+        { title: "catalogue", slug: "/catalogue" },
+        { title: "Moods", slug: `/catalogue/moods/${collection.slug}` },
+        {
+          title: collection.artist,
+          slug: `/catalogue/moods/${collection.slug}`,
+        },
+        {
+          title: mood.title,
+          slug: `/catalogue/moods/${collection.slug}/${mood.slug}`,
+        },
+      ]}
     >
       <h1 className="italic title">{mood.title}</h1>
       <h2 className="--muted ta-right author">by {collection.artist}</h2>

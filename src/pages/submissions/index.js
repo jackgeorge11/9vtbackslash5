@@ -23,7 +23,7 @@ export default function Index() {
       title="submissions"
       description="find out everything you need to know about releasing or publishing your work with 9VT\5."
     >
-      <Window className="small">
+      <Window className="small" crumbs={[{title: "submissions"}]}>
         <h1>submissions</h1>
         <h2>
           we are interested in publishing all sorts of work, from books in print

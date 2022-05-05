@@ -4,6 +4,35 @@
   height: calc(100% - #{$g-md * 2});
   padding: $g-md;
 
+  .product-window-wrapper {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: $window-sm-desktop;
+    min-width: $window-sm-min-desktop;
+
+    @include media($s: $screen-md) {
+      width: $window-sm-tablet;
+      min-width: $window-sm-min-tablet;
+    }
+    @include media {
+      width: $window-sm-mobile;
+      min-width: auto;
+    }
+
+    .breadcrumbs {
+      position: absolute;
+      top: -#{$xsm + $g-sm};
+      z-index: 1000;
+      height: fit-content;
+      white-space: nowrap;
+
+      * {
+        display: inline-block !important;
+      }
+    }
+  }
+
   .title {
     margin-bottom: 0;
   }

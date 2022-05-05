@@ -4,6 +4,7 @@ import Window from "./Window";
 import { GatsbyImage, StaticImage } from "gatsby-plugin-image";
 import { ColorContext } from "../contexts/ColorContext";
 import { Link } from "gatsby";
+import BreadCrumbs from "./BreadCrumbs";
 
 export default function Product({
   children,
@@ -12,7 +13,8 @@ export default function Product({
   title,
   description,
   additional,
-  scroller
+  scroller,
+  crumbs,
 }) {
   const { color } = useContext(ColorContext);
 
@@ -52,7 +54,12 @@ export default function Product({
           <Link className="image image-desktop pointer" to={`${path}#zoom`}>
             <GatsbyImage image={src} alt={alt} />
           </Link>
-          <Window className="small" scroller={scroller}>{children}</Window>
+          <div className="product-window-wrapper">
+            <BreadCrumbs crumbs={crumbs} className={"small"} />
+            <Window className="small" scroller={scroller}>
+              {children}
+            </Window>
+          </div>
         </div>
       </Layout>
     );

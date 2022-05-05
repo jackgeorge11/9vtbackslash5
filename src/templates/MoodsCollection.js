@@ -15,6 +15,7 @@ export const query = graphql`
         description {
           raw
         }
+        slug
         saleEnded
         moods {
           isSold
@@ -83,7 +84,17 @@ export default function MoodsCollection({ data }) {
       title={`Moods by ${collection.title}`}
       description={`${collection.artist}'s Moods collection. Released ${collection.releaseDate}.`}
     >
-      <Window className="large catalogue">
+      <Window
+        className="large catalogue"
+        crumbs={[
+          { title: "catalogue", slug: "/catalogue" },
+          { title: "Moods", slug: `/catalogue/moods/${collection.slug}` },
+          {
+            title: collection.artist,
+            slug: `/catalogue/moods/${collection.slug}`,
+          },
+        ]}
+      >
         <div className="description">
           <h1 className="title italic">Moods</h1>
           <h2 className="--muted ta-right author">by {collection.artist}</h2>
@@ -109,7 +120,14 @@ export default function MoodsCollection({ data }) {
                 />
               </Link>
               <div className="info">
-                <h1>{mood.title}</h1>
+                <h1>
+                  <Link
+                    className="cover"
+                    to={`/catalogue/moods/cottu/${mood.slug}`}
+                  >
+                    {mood.title}
+                  </Link>
+                </h1>
                 {mood.isSold && <h2 className="--muted">(sold)</h2>}
               </div>
             </div>

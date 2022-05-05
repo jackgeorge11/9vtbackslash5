@@ -1,3 +1,38 @@
+.breadcrumbs {
+  display: flex;
+  margin-bottom: $g-xsm;
+
+  h6 {
+    margin: 0;
+  }
+  .divider {
+    margin: 0 $g-xsm;
+  }
+
+  &.small {
+    width: $window-sm-desktop;
+    min-width: $window-sm-min-desktop;
+
+    @include media($s: $screen-md) {
+      width: $window-sm-tablet;
+      min-width: $window-sm-min-tablet;
+    }
+    @include media {
+      width: $window-sm-mobile;
+      min-width: auto;
+    }
+  }
+  &.large {
+    width: $window-lg-desktop;
+    min-width: $window-lg-min-desktop;
+
+    @include media($s: $screen-md) {
+      width: $window-lg-tablet;
+      min-width: auto;
+    }
+  }
+}
+
 .window {
   @include border;
   padding: $g-sm;
@@ -10,6 +45,7 @@
   z-index: 10;
   @include trans;
   scroll-behavior: smooth;
+  position: relative;
 
   @include media {
     width: 90%;

@@ -10,7 +10,7 @@ export default function NotFoundPage() {
       title="page not found"
       additional={[{ name: "robots", content: "noindex" }]}
     >
-      <Window className="small">
+      <Window className="small" crumbs={[{title: "404 \\ page not found"}]}>
         <h1>404 \\ this page does not exist</h1>
         <h2>
           well, clearly <span className="italic">a</span> page exists, but it's

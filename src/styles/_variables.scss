@@ -6,7 +6,7 @@ $font: "STIX Two Text", serif;
 $lg: 1.5rem;
 $md: 1rem;
 $sm: 0.875rem;
-$xsm: 0.75rem;
+$xsm: 0.8rem;
 
 $font-sizes: (
   lg: $lg,
@@ -19,6 +19,7 @@ $header-sizes: (
   h1: $lg,
   h2: $md,
   h3: $sm,
+  h4: $xsm,
 );
 
 // TEXT ALIGNMENTS

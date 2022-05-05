@@ -11,7 +11,7 @@ export default function index() {
         title="about"
         about="about us: 9VT\5, also 9vtbackslash5, is an independent publishing house and creative platform for artists, authors, and others."
       >
-        <Window className="small about">
+        <Window className="small about" crumbs={[{title: "about"}]}>
           <h1>about</h1>
           <h2>
             9VT\5 is an independent publishing house and creative platform for

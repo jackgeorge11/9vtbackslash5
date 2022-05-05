@@ -10,6 +10,7 @@ export const query = graphql`
     allContentfulOpenCall(filter: { slug: { eq: $slug } }) {
       nodes {
         slug
+        title
         description {
           raw
         }
@@ -49,7 +50,13 @@ export default function OpenCall({ data }) {
       title={`submissions | ${call.title}`}
       description={`submissions: we currently have an open call for ${call.title}. learn more about how to submit your work.`}
     >
-      <Window className="small">
+      <Window
+        className="small"
+        crumbs={[
+          { title: "submissions", slug: "/submissions" },
+          { title: call.title, slug: `/submissions/${call.slug}` },
+        ]}
+      >
         {call.description && renderRichText(call.description, options)}
         <h2>
           submit your work or any questions you might have to{" "}

@@ -147,6 +147,10 @@ export default function Index({ data }) {
           : `published in ${publication.format}.`
       } ${formatPrice(publication.price, "USD")}.`}
       scroller={publicationWindow}
+      crumbs={[
+        { title: "catalogue", slug: "/catalogue" },
+        { title: publication.title, slug: `/catalogue/${publication.slug}` },
+      ]}
     >
       {loading ? (
         <h2 className="--muted loading">(loading)</h2>
