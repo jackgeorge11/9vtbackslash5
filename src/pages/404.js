@@ -24,7 +24,7 @@ export default function NotFoundPage() {
           <a
             href="https://instagram.com/9vtbackslash5"
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener noreferrer nofollow"
           >
             click here
           </a>{" "}

@@ -4,20 +4,12 @@ import React, { useContext, useEffect, useState } from "react";
 import Helmet from "react-helmet";
 import { ColorContext } from "../contexts/ColorContext";
 import "../styles/styles.scss";
-// import { loadStripe } from "@stripe/stripe-js";
-
-// let stripePromise;
-// const getStripe = () => {
-//   if (!stripePromise) {
-//     stripePromise = loadStripe("<YOUR STRIPE PUBLISHABLE KEY>");
-//   }
-//   return stripePromise;
-// };
 
 export default function Layout({
   children,
   title,
   description,
+  canonical,
   page,
   additional,
 }) {
@@ -82,6 +74,16 @@ export default function Layout({
       <Helmet>
         <title>{title}</title>
         <meta name="description" content={description} />
+        <link
+          rel="canonical"
+          href={
+            page === "home"
+              ? "https://www.9vtbackslash5.com"
+              : canonical
+              ? `https://www.9vtbackslash5.com/${page}/${canonical}`
+              : `https://www.9vtbackslash5.com/${page}`
+          }
+        />
         <style type="text/css">{`body {background-color: ${color}}`}</style>
         {additional &&
           additional.map((tag) => (
@@ -148,10 +150,18 @@ export default function Layout({
       {children}
       {page !== "home" ? (
         <>
-          <div className="w-20 half-logo right pointer" onClick={logoClick} role="button">
+          <div
+            className="w-20 half-logo right pointer"
+            onClick={logoClick}
+            role="button"
+          >
             <StaticImage src="../assets/brand/logo.png" alt="logo" />
           </div>
-          <div className="w-20 half-logo left pointer" onClick={logoClick} role="button">
+          <div
+            className="w-20 half-logo left pointer"
+            onClick={logoClick}
+            role="button"
+          >
             <StaticImage src="../assets/brand/logo.png" alt="logo" />
           </div>
         </>

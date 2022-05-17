@@ -31,16 +31,29 @@
         display: inline-block !important;
       }
     }
+
+    .window {
+      &.small {
+        width: 100%;
+      }
+    }
   }
 
-  .title {
-    margin-bottom: 0;
+  .product-header {
+    margin: $g-md 0;
+    display: flex;
+    flex-direction: column;
+
+    .title {
+      margin: 0;
+    }
+  
+    .author {
+      margin: 0;
+    }
   }
 
-  .author {
-    margin: 0 0 $g-md;
-  }
-
+  
   .breakdown {
     display: flex;
     justify-content: space-between;

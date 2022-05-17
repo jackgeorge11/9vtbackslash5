@@ -15,7 +15,7 @@ export default function index() {
           <h1>inquiries</h1>
           <h2>
             have any questions, or simply want to say hello? email us at{" "}
-            <a href="mailto:hi@9vtbackslash5.com">hi@9vtbackslash5.com</a>.
+            <a href="mailto:hi@9vtbackslash5.com" rel="nofollow">hi@9vtbackslash5.com</a>.
           </h2>
           <h2>
             want a recipe from jack, a tarot reading from isabella, or a picture
@@ -26,14 +26,14 @@ export default function index() {
             interested in submitting your work? find all submissions-related
             information <Link to="/submissions">here</Link>, unless you already
             know what you're doing, in which case email us at{" "}
-            <a href="mailto:submissions@9vtbackslash5.com">
+            <a href="mailto:submissions@9vtbackslash5.com" rel="nofollow">
               submissions@9vtbackslash5.com
             </a>
             .
           </h2>
           <h2>
             have any questions about a transaction? email{" "}
-            <a href="mailto:transactions@9vtbackslash5.com">
+            <a href="mailto:transactions@9vtbackslash5.com" rel="nofollow">
               transactions@9vtbackslash5.com
             </a>
             .
@@ -43,7 +43,7 @@ export default function index() {
             <a
               href="https://instagram.com/9vtbackslash5"
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener noreferrer nofollow"
             >
               @9vtbackslash5
             </a>

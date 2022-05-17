@@ -49,6 +49,7 @@ export default function OpenCall({ data }) {
       page="submissions"
       title={`submissions | ${call.title}`}
       description={`submissions: we currently have an open call for ${call.title}. learn more about how to submit your work.`}
+      canonical={call.slug}
     >
       <Window
         className="small"
@@ -60,7 +61,7 @@ export default function OpenCall({ data }) {
         {call.description && renderRichText(call.description, options)}
         <h2>
           submit your work or any questions you might have to{" "}
-          <a href="mailto:submissions@9vtbackslash5.com">
+          <a href="mailto:submissions@9vtbackslash5.com" rel="nofollow">
             submissions@9vtbackslash5.com
           </a>
           .

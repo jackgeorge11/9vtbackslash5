@@ -38,7 +38,7 @@ $font-weights: (
 $light: #ffffff;
 $dark: #000000;
 $muted: #00000055;
-$warning: rgb(255, 0, 0);
+$warning: rgb(179, 30, 30);
 
 $colors: (
   light: $light,
@@ -94,7 +94,9 @@ $window-sm-mobile: 90%;
 $window-sm-min-desktop: 450px;
 $window-sm-min-tablet: 375px;
 
-$window-height: 300px;
+$window-height: 450px;
+$window-height-md: 450px;
+$window-height-sm: 450px;
 
 // MEDIA
 $screen-sm: 500px;

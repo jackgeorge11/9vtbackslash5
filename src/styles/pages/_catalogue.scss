@@ -29,8 +29,7 @@
     }
 
     .description {
-      min-width: 100%;
-      min-width: 100%;
+      min-width: 50%;
       align-self: flex-start;
       margin-right: $g-lg;
 
@@ -44,21 +43,6 @@
 
         &.scroll {
           white-space: nowrap;
-          @keyframes attend {
-            0% {
-              transform: translateX(0);
-            }
-            60% {
-              transform: translateX(0);
-            }
-            80% {
-              transform: translateX(5px);
-            }
-            100% {
-              transform: translateX(0);
-            }
-          }
-
           transform-origin: 0 center;
           animation: attend 1.5s 1s ease-in-out infinite;
         }

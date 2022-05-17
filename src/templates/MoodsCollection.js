@@ -83,6 +83,7 @@ export default function MoodsCollection({ data }) {
       page="catalogue"
       title={`Moods by ${collection.title}`}
       description={`${collection.artist}'s Moods collection. Released ${collection.releaseDate}.`}
+      canonical={collection.slug}
     >
       <Window
         className="large catalogue"

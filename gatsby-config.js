@@ -4,8 +4,8 @@ require("dotenv").config({
 
 module.exports = {
   siteMetadata: {
-    title: ``,
-    siteUrl: `https://www.yourdomain.tld`,
+    title: `9VT\\5`,
+    siteUrl: `https://www.9vtbackslash5.com`,
   },
   plugins: [
     "gatsby-plugin-sass",
@@ -13,7 +13,6 @@ module.exports = {
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-sitemap",
     "gatsby-plugin-sharp",
-    "gatsby-plugin-breadcrumb",
     "gatsby-transformer-sharp",
     {
       resolve: "gatsby-source-filesystem",

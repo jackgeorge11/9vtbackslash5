@@ -71,6 +71,7 @@ export default function Mood({ data }) {
       alt={mood.title}
       title={mood.title}
       description={`${mood.title} from ${mood.artist}'s Moods collection.`}
+      canonical={`${collection.slug}/${mood.slug}`}
       crumbs={[
         { title: "catalogue", slug: "/catalogue" },
         { title: "Moods", slug: `/catalogue/moods/${collection.slug}` },

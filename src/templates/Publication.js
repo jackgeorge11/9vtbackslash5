@@ -112,7 +112,6 @@ export default function Index({ data }) {
       ...prev,
       [e.target.name]: e.target.value,
     }));
-    console.log(buyerOptions);
   };
 
   useEffect(() => {
@@ -127,13 +126,14 @@ export default function Index({ data }) {
           ? JSON.parse(
               publication.shipping[Number(buyerOptions.shipping)].internal
                 .content
-            ).cost
+            ).cost * buyerOptions.quantity
           : 0)
     );
   }, [buyerOptions.shipping, subtotal]);
 
-  const shipping = useRef();
   const publicationWindow = useRef();
+  const purchase = useRef();
+  const shipping = useRef();
   const [shippingError, setShippingError] = useState(false);
 
   return (
@@ -146,6 +146,7 @@ export default function Index({ data }) {
           ? `${publication.genre} published in ${publication.format}.`
           : `published in ${publication.format}.`
       } ${formatPrice(publication.price, "USD")}.`}
+      canonical={publication.slug}
       scroller={publicationWindow}
       crumbs={[
         { title: "catalogue", slug: "/catalogue" },
@@ -174,7 +175,7 @@ export default function Index({ data }) {
             <a
               href="https://instagram.com/9vtbackslash5"
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener noreferrer nofollow"
             >
               click here
             </a>{" "}
@@ -183,8 +184,32 @@ export default function Index({ data }) {
         </>
       ) : (
         <>
-          <h1 className="italic title">{publication.title}</h1>
-          <h2 className="--muted ta-right author">by {publication.author}</h2>
+          <div className="product-header">
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              {publication.soldOut ||
+                publication.saleEnded ||
+                (publication.preorder &&
+                  !moment(publication.preorderShipDate).isAfter(moment()) && (
+                    <button
+                      className="end"
+                      onClick={() =>
+                        (publicationWindow.current.scrollTop =
+                          purchase?.current?.offsetTop - 10)
+                      }
+                    >
+                      <h3>purchase</h3>
+                    </button>
+                  ))}
+              <h1 className="italic title">{publication.title}</h1>
+            </div>
+            <h2 className="--muted ta-right author">by {publication.author}</h2>
+          </div>
           {description && renderRichText(description, options)}
           <div className="image image-mobile">
             <GatsbyImage image={cover} alt={`${publication.title} cover`} />
@@ -207,7 +232,7 @@ export default function Index({ data }) {
                     {moment(publication.preorderShipDate).format("MMMM Do")}
                   </h2>
                 )}
-              <h1>
+              <h1 ref={purchase}>
                 {publication.preorder &&
                 moment(publication.preorderShipDate).isAfter(moment())
                   ? "preorder"
@@ -240,7 +265,6 @@ export default function Index({ data }) {
                   shippingError ? "breakdown thick --warning" : "breakdown"
                 }
                 ref={shipping}
-                onClick={() => console.log(shipping, publicationWindow)}
               >
                 shipping:{" "}
                 <select
@@ -303,11 +327,13 @@ export default function Index({ data }) {
                                 shipping: {
                                   currency_code: "USD",
                                   value: (
-                                    JSON.parse(
+                                    (JSON.parse(
                                       publication.shipping[
                                         Number(buyerOptions.shipping)
                                       ].internal.content
-                                    ).cost / 100
+                                    ).cost *
+                                      buyerOptions.quantity) /
+                                    100
                                   ).toFixed(2),
                                 },
                                 tax_total: {

@@ -12,6 +12,7 @@ export default function Product({
   alt,
   title,
   description,
+  canonical,
   additional,
   scroller,
   crumbs,
@@ -48,19 +49,20 @@ export default function Product({
         page="catalogue"
         title={title}
         description={description}
+        canonical={canonical}
         additional={additional}
       >
-        <div className="product">
+        <main className="product">
           <Link className="image image-desktop pointer" to={`${path}#zoom`}>
             <GatsbyImage image={src} alt={alt} />
           </Link>
           <div className="product-window-wrapper">
             <BreadCrumbs crumbs={crumbs} className={"small"} />
-            <Window className="small" scroller={scroller}>
+            <Window className="small" scroller={scroller} article={true}>
               {children}
             </Window>
           </div>
-        </div>
+        </main>
       </Layout>
     );
   }

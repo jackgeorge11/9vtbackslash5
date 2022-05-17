@@ -30,7 +30,7 @@ export default function index() {
             <a
               href="https://instagram.com/9vtbackslash5"
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener noreferrer nofollow"
             >
               click here
             </a>{" "}
@@ -61,7 +61,7 @@ export default function index() {
             <div className="member">
               <div>
                 <h2>Jack George</h2>
-                <a href="mailto:jack@9vtbackslash5.com">
+                <a href="mailto:jack@9vtbackslash5.com" rel="nofollow">
                   jack@9vtbackslash5.com
                 </a>
                 <h2 className="--muted">(founder)</h2>
@@ -73,7 +73,7 @@ export default function index() {
             <div className="member">
               <div>
                 <h2>Isabella Greenwood</h2>
-                <a href="mailto:isabella@9vtbackslash5.com">
+                <a href="mailto:isabella@9vtbackslash5.com" rel="nofollow">
                   isabella@9vtbackslash5.com
                 </a>
                 <h2 className="--muted">(creative-director)</h2>
@@ -88,7 +88,7 @@ export default function index() {
             <div className="member">
               <div>
                 <h2>Marlon Webster Paine</h2>
-                <a href="mailto:marlon@9vtbackslash5.com">
+                <a href="mailto:marlon@9vtbackslash5.com" rel="nofollow">
                   marlon@9vtbackslash5.com
                 </a>
                 <h2 className="--muted">(editor-in-chief)</h2>

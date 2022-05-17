@@ -1,24 +1,29 @@
 import React, { useContext, useEffect, useRef } from "react";
 import { ColorContext } from "../contexts/ColorContext";
-import { Link } from "gatsby";
-import BreadCrumbs from "./BreadCrumbs";
 
-function Window({ children, className, scroller, crumbs }) {
+function Window({ children, className, scroller, article }) {
   const { color } = useContext(ColorContext);
 
-  return (
-    <>
-      <BreadCrumbs crumbs={crumbs} className={className}/>
-      <div
-        className={`window ${className}`}
-        style={{
-          backgroundColor: color,
-        }}
-        ref={scroller}
-      >
-        {children}
-      </div>
-    </>
+  return article ? (
+    <article
+      className={`window ${className}`}
+      style={{
+        backgroundColor: color,
+      }}
+      ref={scroller}
+    >
+      {children}
+    </article>
+  ) : (
+    <main
+      className={`window ${className}`}
+      style={{
+        backgroundColor: color,
+      }}
+      ref={scroller}
+    >
+      {children}
+    </main>
   );
 }
 
