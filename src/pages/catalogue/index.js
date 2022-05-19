@@ -109,7 +109,7 @@ export default function Index() {
                   <GatsbyImage
                     image={
                       item.internal.type === "ContentfulMoodsCollection"
-                        ? getImage(item.moods?.[getMood()].photo)
+                        ? getImage(item.moods?.[0].photo)
                         : getImage(item.cover)
                     }
                     alt={
@@ -118,7 +118,7 @@ export default function Index() {
                         : item.title
                     }
                     objectFit="contain"
-                    style={{ maxHeight: "100%" }}
+                    style={{ maxHeight: "300px" }}
                   />
                 </Link>
                 <div className="info">

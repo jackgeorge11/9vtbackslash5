@@ -3,7 +3,7 @@ import React from "react";
 
 function BreadCrumbs({ crumbs, className }) {
   return crumbs && crumbs.length ? (
-    <div className={`breadcrumbs ${className}`}>
+    <div className={`breadcrumbs ${className ? className : ""}`}>
       <h4 className="--muted">
         {crumbs.map((c, i) => (
           <>

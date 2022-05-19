@@ -25,7 +25,9 @@ export default function Product({
   useEffect(() => {
     setPath(window.location.pathname);
     setHash(window.location.hash);
-  }, []);
+  }, [window.location.pathname, window.location.hash]);
+
+  console.log(path, hash);
 
   if (hash) {
     return (
