@@ -6,6 +6,8 @@ import { ColorContext } from "../contexts/ColorContext";
 import { Link } from "gatsby";
 import BreadCrumbs from "./BreadCrumbs";
 
+const isBrowser = typeof window !== "undefined";
+
 export default function Product({
   children,
   src,
@@ -22,10 +24,18 @@ export default function Product({
   const [path, setPath] = useState(undefined);
   const [hash, setHash] = useState(undefined);
 
+  let _path = undefined;
+  let _hash = undefined;
+
+  if (isBrowser) {
+    _path = window.location.pathname;
+    _hash = window.location.hash;
+  }
+
   useEffect(() => {
-    setPath(window.location.pathname);
-    setHash(window.location.hash);
-  }, [window.location.pathname, window.location.hash]);
+    setPath(_path);
+    setHash(_hash);
+  }, [_path, _hash]);
 
   console.log(path, hash);
 
