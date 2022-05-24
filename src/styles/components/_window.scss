@@ -49,6 +49,8 @@
 
   @include media {
     width: 90%;
+    min-height: $window-height-sm;
+    max-height: $window-height-sm;
   }
 
   &.small {
