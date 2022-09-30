@@ -2,6 +2,7 @@ import { Link } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
 import React, { useContext, useEffect, useState } from "react";
 import Helmet from "react-helmet";
+import { CartContext } from "../contexts/CartContext";
 import { ColorContext } from "../contexts/ColorContext";
 import "../styles/styles.scss";
 
@@ -13,46 +14,54 @@ export default function Layout({
   page,
   additional,
 }) {
+  const { cartTotal } = useContext(CartContext);
   const { color, arrangement, logoClick } = useContext(ColorContext);
 
   const getNav = (page, slot) => {
-    let navItems = [];
-    if (page === "catalogue") {
-      navItems = [
-        { title: "home", slug: "/" },
-        { title: "submissions", slug: "/submissions" },
-        { title: "about", slug: "/about" },
-        { title: "inquiries", slug: "/inquiries" },
-      ];
-    } else if (page === "submissions") {
-      navItems = [
-        { title: "home", slug: "/" },
-        { title: "catalogue", slug: "/catalogue" },
-        { title: "about", slug: "/about" },
-        { title: "inquiries", slug: "/inquiries" },
-      ];
-    } else if (page === "about") {
-      navItems = [
-        { title: "home", slug: "/" },
-        { title: "catalogue", slug: "/catalogue" },
-        { title: "submissions", slug: "/submissions" },
-        { title: "inquiries", slug: "/inquiries" },
-      ];
-    } else if (page === "inquiries") {
-      navItems = [
-        { title: "home", slug: "/" },
-        { title: "catalogue", slug: "/catalogue" },
-        { title: "submissions", slug: "/submissions" },
-        { title: "about", slug: "/about" },
-      ];
-    } else {
-      navItems = [
-        { title: "catalogue", slug: "/catalogue" },
-        { title: "submissions", slug: "/submissions" },
-        { title: "about", slug: "/about" },
-        { title: "inquiries", slug: "/inquiries" },
-      ];
-    }
+    let navItems = [
+      { title: "home", slug: "/" },
+      { title: "catalogue", slug: "/catalogue" },
+      { title: "submissions", slug: "/submissions" },
+      { title: "about", slug: "/about" },
+      { title: "inquiries", slug: "/inquiries" },
+      { title: "cart", slug: "/cart" },
+    ];
+    // if (page === "catalogue") {
+    //   navItems = [
+    //     { title: "home", slug: "/" },
+    //     { title: "submissions", slug: "/submissions" },
+    //     { title: "about", slug: "/about" },
+    //     { title: "inquiries", slug: "/inquiries" },
+    //   ];
+    // } else if (page === "submissions") {
+    //   navItems = [
+    //     { title: "home", slug: "/" },
+    //     { title: "catalogue", slug: "/catalogue" },
+    //     { title: "about", slug: "/about" },
+    //     { title: "inquiries", slug: "/inquiries" },
+    //   ];
+    // } else if (page === "about") {
+    //   navItems = [
+    //     { title: "home", slug: "/" },
+    //     { title: "catalogue", slug: "/catalogue" },
+    //     { title: "submissions", slug: "/submissions" },
+    //     { title: "inquiries", slug: "/inquiries" },
+    //   ];
+    // } else if (page === "inquiries") {
+    //   navItems = [
+    //     { title: "home", slug: "/" },
+    //     { title: "catalogue", slug: "/catalogue" },
+    //     { title: "submissions", slug: "/submissions" },
+    //     { title: "about", slug: "/about" },
+    //   ];
+    // } else {
+    //   navItems = [
+    //     { title: "catalogue", slug: "/catalogue" },
+    //     { title: "submissions", slug: "/submissions" },
+    //     { title: "about", slug: "/about" },
+    //     { title: "inquiries", slug: "/inquiries" },
+    //   ];
+    // }
     return navItems[slot];
   };
 
@@ -65,6 +74,7 @@ export default function Layout({
         arrangement.b,
         arrangement.c,
         arrangement.d,
+        arrangement.e,
       ]);
     }
   }, [arrangement]);
@@ -105,7 +115,66 @@ export default function Layout({
         })
       ) : (
         <>
-          <div className="nav left">
+          <nav className="sm">
+            <Link to={"/"} className={page === "home" ? "is--active sm" : "sm"}>
+              home
+            </Link>
+            {" \\\\ "}
+            <Link
+              to={"/catalogue"}
+              className={page === "catalogue" ? "is--active sm" : "sm"}
+            >
+              catalogue
+            </Link>
+            {" \\\\ "}
+            <Link
+              to={"/about"}
+              className={page === "about" ? "is--active sm" : "sm"}
+            >
+              about
+            </Link>
+            {" \\\\ "}
+            <Link
+              to={"/inquiries"}
+              className={page === "inquiries" ? "is--active sm" : "sm"}
+            >
+              inquiries
+            </Link>
+            {cartTotal ? (
+              <>
+                {" \\\\ "}
+                <Link
+                  to={"/cart"}
+                  className={page === "cart" ? "is--active sm" : "sm"}
+                >
+                  cart ({cartTotal})
+                </Link>
+              </>
+            ) : null}
+          </nav>
+          <div className="footer">
+            <p className="--muted">© 2022 9VT\5</p>
+            <p className="--muted">
+              <a
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+                href="https://instagram.com/9vtbackslash5"
+              >
+                instagram
+              </a>
+            </p>
+            <p className="--muted">
+              website by{" "}
+              <a
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+                href="https://jackgeorge.xyz"
+              >
+                Jack George
+              </a>
+            </p>
+          </div>
+          {/* <div className="nav left">
             {arrangements.map((link, i) => {
               if (i === 0) {
                 return (
@@ -144,7 +213,7 @@ export default function Layout({
                 );
               } else return null;
             })}
-          </div>
+          </div> */}
         </>
       )}
       {children}

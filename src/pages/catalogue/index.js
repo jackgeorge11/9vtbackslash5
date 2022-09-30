@@ -71,6 +71,8 @@ export default function Index() {
 
   const scroller = useRef();
 
+  console.log(sortedCatalogue);
+
   return (
     <div>
       <Layout

@@ -37,8 +37,6 @@ export default function Product({
     setHash(_hash);
   }, [_path, _hash]);
 
-  console.log(path, hash);
-
   if (hash) {
     return (
       <div className="zoom" style={{ backgroundColor: color }}>

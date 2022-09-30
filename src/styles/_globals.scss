@@ -94,6 +94,13 @@ body {
 @each $s, $n in $font-sizes {
   .#{$s} {
     font-size: $n;
+    @include media($s: $screen-md) {
+      font-size: calc($n * 0.875);
+    }
+
+    @include media {
+      font-size: calc($n * 0.75);
+    }
   }
 }
 
@@ -104,11 +111,11 @@ body {
     margin: 0;
 
     @include media($s: $screen-md) {
-      font-size: $size * .875;
+      font-size: $size * 0.875;
     }
 
     @include media {
-      font-size: $size * .75;
+      font-size: $size * 0.75;
     }
   }
 }
@@ -165,7 +172,9 @@ button,
 
 // ERROR HANDLING
 
-input, textarea, select {
+input,
+textarea,
+select {
   &.--warning {
     border-color: $warning;
     outline: $warning;
@@ -176,26 +185,44 @@ input, textarea, select {
   0% {
     transform: scale(1);
   }
-  65% {
-    transform: scale(1);
-  }
-  75% {
+  10% {
     transform: scale(1.075);
   }
-  100% {
+  30% {
     transform: scale(1);
   }
 }
 
-.button, button {
+.button,
+button {
   outline: none;
   background-color: $dark;
   color: $light;
   padding: 0 $g-sm;
   border-radius: $border-radius;
-  animation: glow 1.5s 1s ease-in-out infinite;
+  animation: glow 3s 1s ease-in-out infinite;
+  border: 1px solid transparent;
 
-  &.end {
-    align-self: flex-end;
+  &:hover {
+    background-color: transparent;
+    border-color: black;
+    color: black;
+    animation: none;
+  }
+
+  &.disarm {
+    animation: none;
+  }
+
+  &.inverted {
+    background-color: transparent;
+    color: black;
+    border-color: black;
+    animation: none;
+
+    &:hover {
+      background-color: black;
+      color: white;
+    }
   }
 }

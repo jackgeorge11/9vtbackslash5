@@ -6,6 +6,7 @@ import { renderRichText } from "gatsby-source-contentful/rich-text";
 import { BLOCKS, MARKS } from "@contentful/rich-text-types";
 import { ColorContext } from "../contexts/ColorContext";
 import { PayPalButton } from "react-paypal-button-v2";
+import { CartContext } from "../contexts/CartContext";
 import moment from "moment";
 
 export const query = graphql`
@@ -42,6 +43,9 @@ export const query = graphql`
         preorderShipDate
         copies
         editors
+        sys {
+          type
+        }
       }
     }
   }
@@ -87,15 +91,8 @@ export default function Index({ data }) {
   const cover = getImage(publication?.cover);
 
   const { loading, setLoading } = useContext(ColorContext);
+  const { addCartItems, cart } = useContext(CartContext);
   const [success, setSuccess] = useState(undefined);
-
-  const getShippingOptions = (options) => {
-    let stripeShipping = [];
-    options?.forEach((option) => {
-      const parsed = JSON.parse(option?.internal?.content);
-    });
-    return stripeShipping;
-  };
 
   const [total, setTotal] = useState(
     publication.price + publication.price * publication.tax
@@ -132,6 +129,7 @@ export default function Index({ data }) {
   }, [buyerOptions.shipping, subtotal]);
 
   const publicationWindow = useRef();
+  const [purchaseOpen, setPurchaseOpen] = useState(false);
   const purchase = useRef();
   const shipping = useRef();
   const [shippingError, setShippingError] = useState(false);
@@ -185,31 +183,47 @@ export default function Index({ data }) {
       ) : (
         <>
           <div className="product-header">
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              {publication.soldOut ||
-                publication.saleEnded ||
-                (publication.preorder &&
-                  !moment(publication.preorderShipDate).isAfter(moment()) && (
+            {!publication.soldOut &&
+              !publication.saleEnded &&
+              ((publication.preorder &&
+                !moment(publication.preorderShipDate).isAfter(moment())) ||
+                !moment(publication.releaseDate).isAfter(moment())) && (
+                <>
+                  {cart.some((i) => i.slug === publication.slug) ? (
+                    <Link className="button disarm" to="/cart">
+                      <h3>
+                        {
+                          cart.filter((i) => i.slug === publication.slug)[0]
+                            .quantity
+                        }{" "}
+                        in cart
+                      </h3>
+                    </Link>
+                  ) : (
                     <button
-                      className="end"
                       onClick={() =>
-                        (publicationWindow.current.scrollTop =
-                          purchase?.current?.offsetTop - 10)
+                        addCartItems({
+                          quantity: 1,
+                          maxQuantity: 5,
+                          slug: publication.slug,
+                          url: `/catalogue/${publication.slug}`,
+                          type: publication.sys.type,
+                          price: publication.price,
+                          tax: publication.tax,
+                          title: publication.title,
+                          author: publication.author,
+                          image: cover ? cover : undefined,
+                        })
                       }
                     >
-                      <h3>purchase</h3>
+                      <h3>add to cart</h3>
                     </button>
-                  ))}
-              <h1 className="italic title">{publication.title}</h1>
-            </div>
-            <h2 className="--muted ta-right author">by {publication.author}</h2>
+                  )}
+                </>
+              )}
+            <h1 className="italic title">{publication.title}</h1>
           </div>
+          <h2 className="--muted ta-right author">by {publication.author}</h2>
           {description && renderRichText(description, options)}
           <div className="image image-mobile">
             <GatsbyImage image={cover} alt={`${publication.title} cover`} />
@@ -219,12 +233,12 @@ export default function Index({ data }) {
               this edition is limited to {publication.copies} copies.
             </h2>
           )}
-          {publication.soldOut ? (
+          {/* {publication.soldOut ? (
             <h2 className="--muted">this publication is sold out</h2>
           ) : publication.saleEnded ? (
             <h2 className="--muted">sales for this publication have ended</h2>
           ) : (
-            <>
+            <div className={purchaseOpen ? "purchase is--active" : "purchase"}>
               {publication.preorder &&
                 moment(publication.preorderShipDate).isAfter(moment()) && (
                   <h2 className="--muted">
@@ -375,8 +389,8 @@ export default function Index({ data }) {
                   }}
                 />
               </div>
-            </>
-          )}
+            </div>
+          )} */}
           <h1>details</h1>
           {publication.editors && (
             <h2 className="m-0">edited by {publication.editors}</h2>

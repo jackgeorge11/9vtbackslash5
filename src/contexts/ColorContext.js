@@ -37,6 +37,7 @@ export const ColorProvider = (props) => {
       b: {},
       c: {},
       d: {},
+      e: {},
     };
     for (const [key] of Object.keys(placements)) {
       let top = Math.floor(Math.random() * height);

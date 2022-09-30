@@ -1,16 +1,36 @@
 .main {
-  .nav {
+  nav {
     display: flex;
     position: absolute;
+    left: 10%;
+    top: 5%;
+    max-width: 20rem;
+    flex-wrap: wrap;
 
-    &.left {
-      left: 10%;
-      top: 5%;
+    .is--active {
+      text-decoration: underline;
+    }
+  }
+
+  .footer {
+    position: absolute;
+    right: 10%;
+    bottom: 5%;
+
+    * {
+      text-align: end;
+      color: $muted;
+      @extend .xsm;
+      margin: 0;
     }
 
-    &.right {
-      right: 10%;
-      bottom: 5%;
+    a {
+      text-decoration: underline !important;
+
+      &:hover {
+        color: black;
+        font-weight: $thick;
+      }
     }
   }
 
