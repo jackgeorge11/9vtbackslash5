@@ -30,7 +30,6 @@ export default function Index() {
     }
   };
 
-  const [shippingError, setShippingError] = useState(false);
   const [success, setSuccess] = useState(undefined);
 
   const getItemTotal = (item) => {
@@ -41,7 +40,7 @@ export default function Index() {
           .cost
     );
   };
-  console.log(cart);
+
   return (
     <Layout
       page="cart"
@@ -51,7 +50,32 @@ export default function Index() {
       <Window className="cart small" crumbs={[{ title: "cart" }]}>
         <h1>Cart ({cartTotal})</h1>
         {success ? (
-          <h2 className="">{success}</h2>
+          <>
+            <h2>{success}</h2>
+            <h2>nearly 100% of proceeds go to our authors and artists.</h2>
+            <h2>
+              if you have any questions about your purchase, email us at{" "}
+              <a href="mailto:transactions@9vtbackslash5.com">
+                transactions@9vtbackslash5.com
+              </a>
+              .
+            </h2>
+            <h2 className="ta-right">
+              <Link to="/catalogue">click here</Link> to navigate back to our
+              catalogue.
+            </h2>
+            <h2 className="ta-right">
+              or{" "}
+              <a
+                href="https://instagram.com/9vtbackslash5"
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+              >
+                click here
+              </a>{" "}
+              to checkout our Instagram.
+            </h2>
+          </>
         ) : cart.length ? (
           <>
             {cartUpdating ? (
@@ -116,13 +140,7 @@ export default function Index() {
                           {((item.quantity * item.price) / 100).toFixed(2)}
                         </h3>
                         <h3>tax: {item.tax * 100}%</h3>
-                        <h3
-                          className={
-                            shippingError
-                              ? "breakdown thick --warning"
-                              : "breakdown"
-                          }
-                        >
+                        <h3>
                           shipping:{" "}
                           <select
                             name="shipping"
@@ -133,7 +151,7 @@ export default function Index() {
                             value={
                               item.shippingOption ? item.shippingOption : null
                             }
-                            className={shippingError ? "--warning xsm" : "xsm"}
+                            className="xsm"
                           >
                             <option value="Select" disabled>
                               Select

@@ -1,7 +1,11 @@
 import React, { useState, createContext, useEffect } from "react";
 import sleep from "../tools/Sleep";
 
-export const CartContext = createContext();
+const defaultState = {
+  cart: [],
+};
+
+export const CartContext = createContext(defaultState);
 
 export const CartProvider = (props) => {
   const [cart, setCart] = useState([]);

@@ -5,7 +5,6 @@ import Product from "../components/Product";
 import { renderRichText } from "gatsby-source-contentful/rich-text";
 import { BLOCKS, MARKS } from "@contentful/rich-text-types";
 import { ColorContext } from "../contexts/ColorContext";
-import { PayPalButton } from "react-paypal-button-v2";
 import { CartContext } from "../contexts/CartContext";
 import moment from "moment";
 
@@ -91,9 +90,8 @@ export default function Index({ data }) {
   const description = publication?.description;
   const cover = getImage(publication?.cover);
 
-  const { loading, setLoading } = useContext(ColorContext);
+  const { loading } = useContext(ColorContext);
   const { addCartItems, cart } = useContext(CartContext);
-  const [success, setSuccess] = useState(undefined);
 
   const [total, setTotal] = useState(
     publication.price + publication.price * publication.tax
@@ -103,14 +101,6 @@ export default function Index({ data }) {
     quantity: 1,
     shipping: "Select",
   });
-
-  const handleChange = (e) => {
-    e.preventDefault();
-    setBuyerOptions((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
 
   useEffect(() => {
     setSubtotal(publication.price * Number(buyerOptions.quantity));
@@ -130,10 +120,6 @@ export default function Index({ data }) {
   }, [buyerOptions.shipping, subtotal]);
 
   const publicationWindow = useRef();
-  const [purchaseOpen, setPurchaseOpen] = useState(false);
-  const purchase = useRef();
-  const shipping = useRef();
-  const [shippingError, setShippingError] = useState(false);
 
   return (
     <Product
@@ -154,33 +140,6 @@ export default function Index({ data }) {
     >
       {loading ? (
         <h2 className="--muted loading">(loading)</h2>
-      ) : success ? (
-        <>
-          <h2>{success}</h2>
-          <h2>nearly 100% of proceeds go to the author(s).</h2>
-          <h2>
-            if you have any questions about your purchase, email us at{" "}
-            <a href="mailto:transactions@9vtbackslash5.com">
-              transactions@9vtbackslash5.com
-            </a>
-            .
-          </h2>
-          <h2 className="ta-right">
-            <Link to="/catalogue">click here</Link> to navigate back to our
-            catalogue.
-          </h2>
-          <h2 className="ta-right">
-            or{" "}
-            <a
-              href="https://instagram.com/9vtbackslash5"
-              target="_blank"
-              rel="noopener noreferrer nofollow"
-            >
-              click here
-            </a>{" "}
-            to checkout our Instagram.
-          </h2>
-        </>
       ) : (
         <>
           <div className="product-header">
@@ -190,7 +149,7 @@ export default function Index({ data }) {
                 !moment(publication.preorderShipDate).isAfter(moment())) ||
                 !moment(publication.releaseDate).isAfter(moment())) && (
                 <>
-                  {cart.some((i) => i.slug === publication.slug) ? (
+                  {cart?.some((i) => i.slug === publication.slug) ? (
                     <Link className="button disarm" to="/cart">
                       <h4>
                         {
