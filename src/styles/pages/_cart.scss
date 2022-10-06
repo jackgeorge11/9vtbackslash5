@@ -7,27 +7,62 @@
         width: 100%;
         display: flex;
         align-items: center;
-        margin-bottom: $g-md;
+        margin: $g-sm 0 $g-md;
 
         .cart-item-image {
-          margin: 0 $g-md $g-sm 0;
+          margin-right: $g-md;
           width: 20%;
+          max-width: 20%;
+          min-width: 20%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          // padding-bottom: $g-sm;
+          // border-bottom: $border-size solid black;
         }
 
         .cart-item-details {
+          flex: 1;
+
           h1,
           h3 {
             margin: 0;
+            text-align: left;
           }
-        }
 
-        button {
-          margin-left: auto;
+          .preorder {
+            text-decoration: none;
+            display: inline-flex;
+          }
 
-          p {
+          .subtitle {
+            margin-bottom: $g-sm;
+          }
+
+          h2 {
             margin: $g-xxsm 0;
           }
         }
+      }
+    }
+
+    .cart-numbers {
+      display: flex;
+      flex-direction: column;
+
+      h1 {
+        margin-bottom: 0;
+      }
+      h3 {
+        margin: 0;
+      }
+
+      .paypal-btn-wrapper {
+        width: 100%;
+        max-width: 25rem;
+        margin: $g-lg 0 0;
+        align-self: center;
+        font-size: $md !important;
       }
     }
   }

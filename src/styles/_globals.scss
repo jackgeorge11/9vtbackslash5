@@ -92,6 +92,7 @@ body {
 // HEADERS
 
 @each $s, $n in $font-sizes {
+  @debug $s, $n;
   .#{$s} {
     font-size: $n;
     @include media($s: $screen-md) {
@@ -175,6 +176,7 @@ button,
 input,
 textarea,
 select {
+  font-family: $font;
   &.--warning {
     border-color: $warning;
     outline: $warning;
@@ -202,6 +204,7 @@ button {
   border-radius: $border-radius;
   animation: glow 3s 1s ease-in-out infinite;
   border: 1px solid transparent;
+  white-space: nowrap;
 
   &:hover {
     background-color: transparent;

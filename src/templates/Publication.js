@@ -43,6 +43,7 @@ export const query = graphql`
         preorderShipDate
         copies
         editors
+        shipsFrom
         sys {
           type
         }
@@ -191,13 +192,13 @@ export default function Index({ data }) {
                 <>
                   {cart.some((i) => i.slug === publication.slug) ? (
                     <Link className="button disarm" to="/cart">
-                      <h3>
+                      <h4>
                         {
                           cart.filter((i) => i.slug === publication.slug)[0]
                             .quantity
                         }{" "}
                         in cart
-                      </h3>
+                      </h4>
                     </Link>
                   ) : (
                     <button
@@ -213,10 +214,13 @@ export default function Index({ data }) {
                           title: publication.title,
                           author: publication.author,
                           image: cover ? cover : undefined,
+                          shipping: publication.shipping,
+                          preorder: publication.preorder,
+                          preorderShipDate: publication.preorderShipDate,
                         })
                       }
                     >
-                      <h3>add to cart</h3>
+                      <h4>add to cart</h4>
                     </button>
                   )}
                 </>
@@ -233,164 +237,6 @@ export default function Index({ data }) {
               this edition is limited to {publication.copies} copies.
             </h2>
           )}
-          {/* {publication.soldOut ? (
-            <h2 className="--muted">this publication is sold out</h2>
-          ) : publication.saleEnded ? (
-            <h2 className="--muted">sales for this publication have ended</h2>
-          ) : (
-            <div className={purchaseOpen ? "purchase is--active" : "purchase"}>
-              {publication.preorder &&
-                moment(publication.preorderShipDate).isAfter(moment()) && (
-                  <h2 className="--muted">
-                    this publication will ship from{" "}
-                    {moment(publication.preorderShipDate).format("MMMM Do")}
-                  </h2>
-                )}
-              <h1 ref={purchase}>
-                {publication.preorder &&
-                moment(publication.preorderShipDate).isAfter(moment())
-                  ? "preorder"
-                  : "purchase"}{" "}
-                this publication
-              </h1>
-              <h2 className="breakdown">
-                cost: <span>{formatPrice(publication.price, "USD")}</span>
-              </h2>
-              <h2 className="breakdown">
-                quantity:{" "}
-                <select
-                  name="quantity"
-                  value={buyerOptions.quantity}
-                  onChange={handleChange}
-                >
-                  <option value={1}>1</option>
-                  <option value={2}>2</option>
-                  <option value={3}>3</option>
-                </select>
-              </h2>
-              <h2 className="breakdown">
-                subtotal: <span>{formatPrice(subtotal, "USD")}</span>
-              </h2>
-              <h2 className="breakdown">
-                tax: <span>{publication.tax * 100}%</span>
-              </h2>
-              <h2
-                className={
-                  shippingError ? "breakdown thick --warning" : "breakdown"
-                }
-                ref={shipping}
-              >
-                shipping:{" "}
-                <select
-                  name="shipping"
-                  onChange={handleChange}
-                  defaultValue="Select"
-                  className={shippingError ? "--warning" : ""}
-                >
-                  <option value="Select" disabled>
-                    Select
-                  </option>
-                  {publication.shipping.map((option, i) => {
-                    const parsed = JSON.parse(option.internal.content);
-                    return (
-                      <option value={i}>
-                        {formatPrice(parsed.cost, "USD")} ~ shipping to{" "}
-                        {parsed.to}
-                      </option>
-                    );
-                  })}
-                </select>
-              </h2>
-              <h2 className="breakdown">
-                total: <span>{formatPrice(total, "USD")}</span>
-              </h2>
-              <div className="paypal-btn-wrapper">
-                <PayPalButton
-                  style={{ color: "black" }}
-                  options={{
-                    clientId: `${process.env.GATSBY_PAYAPL_CLIENT_ID}`,
-                  }}
-                  currency="USD"
-                  onError={(err) => {
-                    if (buyerOptions.shipping === "Select") {
-                      alert("Please select shipping.");
-                    } else {
-                      console.log(err);
-                    }
-                  }}
-                  createOrder={(data, actions) => {
-                    if (buyerOptions.shipping === "Select") {
-                      if (publicationWindow?.current) {
-                        setShippingError(true);
-                        publicationWindow.current.scrollTop =
-                          shipping?.current?.offsetTop - 10;
-                      }
-                      return null;
-                    } else {
-                      return actions.order.create({
-                        purchase_units: [
-                          {
-                            amount: {
-                              currency_code: "USD",
-                              value: (total / 100).toFixed(2),
-                              breakdown: {
-                                item_total: {
-                                  currency_code: "USD",
-                                  value: (subtotal / 100).toFixed(2),
-                                },
-                                shipping: {
-                                  currency_code: "USD",
-                                  value: (
-                                    (JSON.parse(
-                                      publication.shipping[
-                                        Number(buyerOptions.shipping)
-                                      ].internal.content
-                                    ).cost *
-                                      buyerOptions.quantity) /
-                                    100
-                                  ).toFixed(2),
-                                },
-                                tax_total: {
-                                  currency_code: "USD",
-                                  value: (
-                                    (subtotal * publication.tax) /
-                                    100
-                                  ).toFixed(2),
-                                },
-                              },
-                            },
-                            items: [
-                              {
-                                unit_amount: {
-                                  currency_code: "USD",
-                                  value: String(
-                                    (publication.price / 100).toFixed(2)
-                                  ),
-                                },
-                                quantity: buyerOptions.quantity,
-                                name: publication.title,
-                                description: publication.blurb
-                                  ? publication.blurb
-                                  : "",
-                              },
-                            ],
-                          },
-                        ],
-                      });
-                    }
-                  }}
-                  onApprove={(data, actions) => {
-                    // Capture the funds from the transaction
-                    return actions.order.capture().then(function (details) {
-                      setSuccess(
-                        `Thanks for your purchase, ${details.payer.name.given_name}.`
-                      );
-                    });
-                  }}
-                />
-              </div>
-            </div>
-          )} */}
           <h1>details</h1>
           {publication.editors && (
             <h2 className="m-0">edited by {publication.editors}</h2>
