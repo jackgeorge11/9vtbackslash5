@@ -1,8 +1,6 @@
 name: Deploy 9vt Gatsby site to A2 (cPanel)
-on:
-  [push, workflow_dispatch]:
-    branches:
-      - main
+
+on: [workflow_dispatch]
 
 jobs:
   FTP-Deploy-Action:
