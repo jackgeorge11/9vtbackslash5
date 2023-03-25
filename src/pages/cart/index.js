@@ -73,7 +73,7 @@ export default function Index() {
               >
                 click here
               </a>{" "}
-              to checkout our Instagram.
+              to check out our Instagram.
             </h2>
           </>
         ) : cart.length ? (

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext } from "react";
 import { ColorContext } from "../contexts/ColorContext";
 import BreadCrumbs from "../components/BreadCrumbs";
 

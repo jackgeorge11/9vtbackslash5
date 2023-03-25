@@ -10,14 +10,17 @@ export default function NotFoundPage() {
       title="page not found"
       additional={[{ name: "robots", content: "noindex" }]}
     >
-      <Window className="small" crumbs={[{title: "404 \\ page not found"}]}>
+      <Window className="small" crumbs={[{ title: "404 \\ page not found" }]}>
         <h1>404 \\ this page does not exist</h1>
         <h2>
           well, clearly <span className="italic">a</span> page exists, but it's
           probably not the page you were looking for.
         </h2>
         <h2>
-          <Link to="/">click here</Link> to navigate back to the home page.
+          <Link to="/">click here</Link> to navigate back to the home page,
+        </h2>
+        <h2>
+          <Link to="/catalogue">click here</Link> to check out our catalogue,
         </h2>
         <h2>
           or{" "}
@@ -28,7 +31,7 @@ export default function NotFoundPage() {
           >
             click here
           </a>{" "}
-          to checkout our Instagram.
+          to check out our Instagram.
         </h2>
       </Window>
     </Layout>

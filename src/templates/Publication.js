@@ -117,7 +117,7 @@ export default function Index({ data }) {
             ).cost * buyerOptions.quantity
           : 0)
     );
-  }, [buyerOptions.shipping, subtotal]);
+  }, [buyerOptions, subtotal, publication]);
 
   const publicationWindow = useRef();
 

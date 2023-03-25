@@ -11,15 +11,18 @@ export default function index() {
         title="inquiries"
         description="contact us if you have any questions about what we do or how you can get involved."
       >
-        <Window className="small" crumbs={[{title: "submissions"}]}>
+        <Window className="small" crumbs={[{ title: "submissions" }]}>
           <h1>inquiries</h1>
           <h2>
-            have any questions, or simply want to say hello? email us at{" "}
-            <a href="mailto:hi@9vtbackslash5.com" rel="nofollow">hi@9vtbackslash5.com</a>.
+            have a question, or simply want to say hello? email us at{" "}
+            <a href="mailto:hi@9vtbackslash5.com" rel="nofollow">
+              hi@9vtbackslash5.com
+            </a>
+            .
           </h2>
           <h2>
-            want a recipe from jack, a tarot reading from isabella, or a picture
-            of Nico, our favorite dog, from Marlon? find their emails{" "}
+            want a recipe from Jack, a poem from Zelda, or a picture of Nico,
+            the cutest husky, from Merryweather? find their emails{" "}
             <Link to="/about">here</Link>.
           </h2>
           <h2>
@@ -39,7 +42,7 @@ export default function index() {
             .
           </h2>
           <h2>
-            fancy hitting us up on Instagram? find us at{" "}
+            and you can always find on Instagram at{" "}
             <a
               href="https://instagram.com/9vtbackslash5"
               target="_blank"

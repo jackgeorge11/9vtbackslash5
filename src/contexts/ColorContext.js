@@ -1,13 +1,13 @@
 import React, { useState, createContext } from "react";
+import { NAV_ITEMS } from "../components/Layout";
 
-export const ColorContext = createContext("FFFFFF");
+export const ColorContext = createContext("#FFFFFF");
 
 export const ColorProvider = (props) => {
-  const [color, setColor] = useState("FFFFFF");
+  const [color, setColor] = useState("#FFFFFF");
   const [arrangement, setArrangement] = useState(undefined);
 
   const changeColor = () => {
-    const letters = "0123456789ABCDEF";
     let color = [];
     for (let i = 0; i < 3; i++) {
       color.push(Math.floor(Math.random() * 255));
@@ -32,19 +32,11 @@ export const ColorProvider = (props) => {
   const rearrange = () => {
     let height = window.innerHeight;
     let width = window.innerWidth;
-    let placements = {
-      a: {},
-      b: {},
-      c: {},
-      d: {},
-      e: {},
-    };
-    for (const [key] of Object.keys(placements)) {
+    const placements = Object.keys(NAV_ITEMS).forEach((key) => {
       let top = Math.floor(Math.random() * height);
       let left = Math.floor(Math.random() * width);
-      placements[key].top = top;
-      placements[key].left = left;
-    }
+      return { key, top, left };
+    });
     setArrangement(placements);
   };
 

@@ -1,16 +1,11 @@
 import { useStaticQuery, graphql, Link } from "gatsby";
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import Layout from "../../components/Layout";
 import Window from "../../components/Window";
 import moment from "moment";
-import { isSafari } from "react-device-detect";
 
 export default function Index() {
-  const getMood = () => {
-    return Math.floor(Math.random() * 10);
-  };
-
   const { allContentfulCatalogue } = useStaticQuery(graphql`
     query MyQuery {
       allContentfulCatalogue {

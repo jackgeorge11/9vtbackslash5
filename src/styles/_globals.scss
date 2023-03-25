@@ -87,6 +87,42 @@ body {
     margin-left: $n;
     margin-right: $n;
   }
+  .mt-#{$s} {
+    margin-top: $n;
+  }
+  .mb-#{$s} {
+    margin-bottom: $n;
+  }
+  .ml-#{$s} {
+    margin-left: $n;
+  }
+  .mr-#{$s} {
+    margin-right: $n;
+  }
+}
+
+.m-none {
+  margin: 0;
+}
+.my-none {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.mx-none {
+  margin-left: 0;
+  margin-left: 0;
+}
+.mt-none {
+  margin-top: 0;
+}
+.mb-none {
+  margin-bottom: 0;
+}
+.ml-none {
+  margin-left: 0;
+}
+.mr-none {
+  margin-right: 0;
 }
 
 // HEADERS

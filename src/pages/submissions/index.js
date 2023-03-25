@@ -16,7 +16,7 @@ export default function Index() {
       }
     }
   `);
-  
+
   return (
     <Layout
       page="submissions"
@@ -26,23 +26,23 @@ export default function Index() {
       <Window className="small" crumbs={[{ title: "submissions" }]}>
         <h1>submissions</h1>
         <h2>
-          we are interested in publishing all sorts of work, from books in print
-          to collections of art to other mediums, whether they be material,
-          digital or conceptual in nature.
+          we seek all sorts of work, from books in print to collections of art
+          to alternative mediums, whether they be material, digital or
+          conceptual in nature.
         </h2>
         <h2>
-          if you are interested in publishing your work with us, or just want to
-          discuss giving expression to a project you've been ruminating over for
-          however many days, months, years — consider submitting your work.
-        </h2>
-        <h2>
-          please send all submissions and submission-related queries to{" "}
+          if you are interested in publishing your work with us, or want to
+          discuss giving expression to a project you've been ruminating over,
+          send a note to{" "}
           <a href="mailto:submissions@9vtbackslash5.com" rel="nofollow">
             submissions@9vtbackslash5.com
           </a>
           .
         </h2>
-        <h2>we always seek to put novel ideas into the world.</h2>
+        <h2>
+          if we love it, we'll work with you to bring it further into the world.
+          `
+        </h2>
         <h1>open calls</h1>
         <h2 className="--muted">
           (this is where we list projects our team is currently working on, new

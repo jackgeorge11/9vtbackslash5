@@ -13,7 +13,11 @@ export default function IndexPage() {
       page="home"
     >
       <div className="home-logo w-30 pointer" onClick={logoClick}>
-        <StaticImage src="../assets/brand/logo.png" alt="logo" />
+        <StaticImage
+          src="../assets/brand/logo.png"
+          alt="logo"
+          placeholder="none"
+        />
       </div>
     </Layout>
   );

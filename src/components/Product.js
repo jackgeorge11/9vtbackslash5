@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Layout from "./Layout";
 import Window from "./Window";
-import { GatsbyImage, StaticImage } from "gatsby-plugin-image";
+import { GatsbyImage } from "gatsby-plugin-image";
 import { ColorContext } from "../contexts/ColorContext";
 import { Link } from "gatsby";
 import BreadCrumbs from "./BreadCrumbs";
