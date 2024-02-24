@@ -94,7 +94,7 @@ export default function Layout({
         )}
       </nav>
       <div className="footer">
-        <p className="--muted">© 2023 9VT\5</p>
+        <p className="--muted">© 2024 9VT\5</p>
         <p className="--muted">
           <a
             target="_blank"
