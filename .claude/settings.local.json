@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(nvm ls:*)",
+      "Bash(npm view:*)",
+      "Bash(nvm ls-remote:*)",
+      "Bash(source ~/.nvm/nvm.sh && nvm ls-remote | tail -10)",
+      "Bash(curl -s https://nodejs.org/dist/index.json | python3 -c \"import json,sys; data=json.load\\(sys.stdin\\); [print\\(d['version']\\) for d in data[:10]]\")",
+      "Bash(cp outdated/src/assets/brand/favicon.png public/brand/ && cp outdated/src/assets/brand/logo.png public/brand/ && cp outdated/src/assets/team/*.png public/team/ 2>/dev/null; cp outdated/src/styles/*.scss styles/ && cp outdated/src/styles/components/*.scss styles/components/ && cp outdated/src/styles/pages/*.scss styles/pages/)",
+      "Bash(npm install:*)",
+      "Bash(npx next:*)",
+      "Bash(npm run:*)"
+    ]
+  }
+}

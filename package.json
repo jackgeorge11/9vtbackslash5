@@ -1,41 +1,29 @@
 {
   "name": "9vtbackslash5",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "description": "9vtbackslash5",
-  "author": "jackgeorge11",
-  "keywords": [
-    "gatsby"
-  ],
   "scripts": {
-    "develop": "gatsby develop",
-    "start": "gatsby develop",
-    "build": "gatsby build",
-    "serve": "gatsby serve",
-    "clean": "gatsby clean"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
-    "@contentful/rich-text-html-renderer": "^15.12.0",
-    "contentful": "^9.1.22",
-    "dotenv": "^16.0.0",
-    "gatsby": "^4.12.1",
-    "gatsby-plugin-image": "^2.12.1",
-    "gatsby-plugin-manifest": "^4.12.1",
-    "gatsby-plugin-react-helmet": "^5.12.1",
-    "gatsby-plugin-sass": "^5.12.1",
-    "gatsby-plugin-sharp": "^4.12.1",
-    "gatsby-plugin-sitemap": "^5.14.0",
-    "gatsby-source-contentful": "^7.10.1",
-    "gatsby-source-filesystem": "^4.12.1",
-    "gatsby-transformer-sharp": "^4.12.1",
-    "intersection-observer": "^0.12.0",
-    "moment": "^2.29.3",
-    "react": "^17.0.1",
-    "react-device-detect": "^2.2.2",
-    "react-dom": "^17.0.1",
-    "react-helmet": "^6.1.0",
-    "react-paypal-button-v2": "^2.6.3",
-    "sass": "^1.50.0",
-    "sharp": "^0.31.3"
+    "@contentful/rich-text-react-renderer": "^16.1.6",
+    "@contentful/rich-text-types": "^17.2.5",
+    "@paypal/react-paypal-js": "^9.0.1",
+    "contentful": "^11.10.5",
+    "dayjs": "^1.11.13",
+    "next": "^16.1.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "sass": "^1.86.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "typescript": "^5.8.0"
   }
 }
