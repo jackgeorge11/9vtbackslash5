@@ -11,10 +11,9 @@ import { CartContext } from "@/contexts/CartContext";
 import { formatPrice } from "@/lib/utils";
 import type { CartItem } from "@/lib/types";
 
-const PayPalCheckout = dynamic(
-  () => import("@/components/PayPalCheckout"),
-  { ssr: false }
-);
+const PayPalCheckout = dynamic(() => import("@/components/PayPalCheckout"), {
+  ssr: false,
+});
 
 export default function CartPage() {
   const {
@@ -32,9 +31,7 @@ export default function CartPage() {
   const getItemTotal = (item: CartItem): number => {
     return (
       item.quantity * (item.price + item.price * item.tax) +
-      item.quantity *
-        JSON.parse(item.shipping[Number(item.shippingOption)].fields.content)
-          .cost
+      item.quantity * item.shipping[Number(item.shippingOption)].cost
     );
   };
 
@@ -52,21 +49,6 @@ export default function CartPage() {
                 transactions@9vtbackslash5.com
               </a>
               .
-            </h2>
-            <h2 className="ta-right">
-              <Link href="/catalogue">click here</Link> to navigate back to our
-              catalogue.
-            </h2>
-            <h2 className="ta-right">
-              or{" "}
-              <a
-                href="https://instagram.com/9vtbackslash5"
-                target="_blank"
-                rel="noopener noreferrer nofollow"
-              >
-                click here
-              </a>{" "}
-              to check out our Instagram.
             </h2>
           </>
         ) : cart.length ? (
@@ -104,9 +86,7 @@ export default function CartPage() {
                           {item.preorder &&
                           dayjs(item.preorderShipDate).isAfter(dayjs())
                             ? ` \\\\ this item ships from
-                              ${dayjs(item.preorderShipDate).format(
-                                "MMMM Do"
-                              )}`
+                              ${dayjs(item.preorderShipDate).format("MMMM Do")}`
                             : ""}
                         </h3>
 
@@ -119,7 +99,7 @@ export default function CartPage() {
                               if (Number(e.target.value)) {
                                 updateCartQuantity(
                                   item.slug,
-                                  Number(e.target.value)
+                                  Number(e.target.value),
                                 );
                               } else if (cart.length > 1) {
                                 removeCartItem(item.slug);
@@ -134,7 +114,7 @@ export default function CartPage() {
                                 <option key={n} value={n}>
                                   {n}
                                 </option>
-                              )
+                              ),
                             )}
                           </select>
                         </h3>
@@ -150,24 +130,22 @@ export default function CartPage() {
                             onChange={(e) =>
                               setCartShipping(item.slug, e.target.value)
                             }
-                            defaultValue="Select"
                             value={
-                              item.shippingOption ? item.shippingOption : ""
+                              item.shippingOption
+                                ? item.shippingOption
+                                : "Select"
                             }
                             className="xsm"
                           >
                             <option value="Select" disabled>
                               Select
                             </option>
-                            {item.shipping.map((option, i) => {
-                              const parsed = JSON.parse(option.fields.content);
-                              return (
-                                <option key={i} value={i}>
-                                  {formatPrice(parsed.cost, "USD")} ~ shipping
-                                  to {parsed.to}
-                                </option>
-                              );
-                            })}
+                            {item.shipping.map((option, i) => (
+                              <option key={i} value={i}>
+                                {formatPrice(option.cost, "USD")} ~ shipping to{" "}
+                                {option.to}
+                              </option>
+                            ))}
                           </select>
                         </h3>
                       </div>
@@ -182,7 +160,7 @@ export default function CartPage() {
                         Total:{" "}
                         {formatPrice(
                           cart.reduce((x, y) => x + getItemTotal(y), 0),
-                          "USD"
+                          "USD",
                         )}
                       </h1>
                       <h3 className="--muted ta-right">
@@ -198,10 +176,10 @@ export default function CartPage() {
                       </div>
                     </>
                   ) : (
-                    <h1>
+                    <h3>
                       In order to proceed, please select shipping options for
                       all items in your cart.
-                    </h1>
+                    </h3>
                   )}
                 </div>
               </>

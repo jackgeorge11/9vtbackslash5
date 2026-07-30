@@ -2,6 +2,12 @@ import type { ContentfulFields } from "@/lib/types";
 
 const SITE_URL = "https://www.9vtbackslash5.com";
 
+// Escapes "<" so a literal "</script>" in CMS data can't close the
+// JSON-LD script tag early.
+export function serializeJsonLd(data: object): string {
+  return JSON.stringify(data).replace(/</g, "\\u003c");
+}
+
 export function organizationJsonLd() {
   return {
     "@context": "https://schema.org",
@@ -35,22 +41,27 @@ export function breadcrumbJsonLd(
   };
 }
 
-export function productJsonLd(pub: ContentfulFields) {
+export function productJsonLd(pub: ContentfulFields, description?: string) {
   const coverUrl = pub.cover?.fields?.file?.url as string | undefined;
   return {
     "@context": "https://schema.org",
-    "@type": "Product",
+    "@type": ["Product", "Book"],
     name: pub.title,
-    description: `${pub.title}, by ${pub.author}`,
+    description: description || `${pub.title}, by ${pub.author}`,
     ...(coverUrl && { image: `https:${coverUrl}` }),
     ...(pub.author && {
-      brand: { "@type": "Person", name: pub.author },
+      author: { "@type": "Person", name: pub.author },
     }),
+    publisher: { "@type": "Organization", name: "9VT\\5" },
+    ...(pub.releaseDate && { datePublished: pub.releaseDate }),
+    ...(pub.pageCount && { numberOfPages: pub.pageCount }),
+    ...(pub.genre && { genre: pub.genre }),
     ...(pub.isbn && { isbn: pub.isbn }),
     ...(pub.price != null && {
       offers: {
         "@type": "Offer",
-        price: pub.price,
+        // pub.price is stored in cents; schema.org expects major units
+        price: (pub.price / 100).toFixed(2),
         priceCurrency: "USD",
         availability:
           pub.soldOut === true

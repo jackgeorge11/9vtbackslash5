@@ -23,13 +23,12 @@ export interface CartItem {
   blurb?: string;
 }
 
+// Contentful delivers the shipping JSON field as plain objects.
+// Legacy carts persisted by the Gatsby site wrapped each option in a
+// node with a JSON string at internal.content — see normalizeShippingOption.
 export interface ShippingOption {
-  fields: {
-    content: string;
-  };
-  internal?: {
-    content: string;
-  };
+  to: string;
+  cost: number;
 }
 
 export interface Crumb {

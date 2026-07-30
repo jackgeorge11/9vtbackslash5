@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import Layout from "@/components/Layout";
 import Window from "@/components/Window";
@@ -32,10 +31,6 @@ export default function OpenCallClient({ openCall }: OpenCallClientProps) {
             submissions@9vtbackslash5.com
           </a>
           .
-        </h2>
-        <h2 className="ta-right">
-          <Link href="/submissions">click here</Link> to navigate back to our
-          submissions page.
         </h2>
       </Window>
     </Layout>

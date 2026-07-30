@@ -18,21 +18,7 @@ export default function NotFound() {
           it&apos;s probably not the page you were looking for.
         </h2>
         <h2>
-          <Link href="/">click here</Link> to navigate back to the home page,
-        </h2>
-        <h2>
-          <Link href="/catalogue">click here</Link> to check out our catalogue,
-        </h2>
-        <h2>
-          or{" "}
-          <a
-            href="https://instagram.com/9vtbackslash5"
-            target="_blank"
-            rel="noopener noreferrer nofollow"
-          >
-            click here
-          </a>{" "}
-          to check out our Instagram.
+          <Link href="/">click here</Link> to navigate back to the home page.
         </h2>
       </Window>
     </Layout>

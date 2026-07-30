@@ -43,9 +43,8 @@ export default function PublicationClient({
       subtotal +
         subtotal * pub.tax +
         (buyerOptions.shipping !== "Select"
-          ? JSON.parse(
-              pub.shipping[Number(buyerOptions.shipping)].fields.content
-            ).cost * buyerOptions.quantity
+          ? pub.shipping[Number(buyerOptions.shipping)].cost *
+            buyerOptions.quantity
           : 0)
     );
   }, [buyerOptions, subtotal, pub]);
@@ -103,7 +102,7 @@ export default function PublicationClient({
                           image: coverUrl
                             ? `https:${coverUrl}`
                             : undefined,
-                          shipping: pub.shipping,
+                          shipping: pub.shipping ?? [],
                           preorder: pub.preorder,
                           preorderShipDate: pub.preorderShipDate,
                         })
@@ -170,10 +169,6 @@ export default function PublicationClient({
               sales for this publication have ended
             </h2>
           )}
-          <h2 className="ta-right">
-            <Link href="/catalogue">click here</Link> to navigate back to our
-            catalogue.
-          </h2>
         </>
       )}
     </Product>

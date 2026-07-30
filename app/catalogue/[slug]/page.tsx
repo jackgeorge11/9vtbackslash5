@@ -1,6 +1,11 @@
 import { getPublication, getAllPublicationSlugs } from "@/lib/contentful";
 import PublicationClient from "./PublicationClient";
-import { productJsonLd } from "@/lib/jsonLd";
+import {
+  productJsonLd,
+  breadcrumbJsonLd,
+  serializeJsonLd,
+} from "@/lib/jsonLd";
+import { richTextToPlainText } from "@/lib/utils";
 import type { Metadata } from "next";
 import type { ContentfulFields } from "@/lib/types";
 
@@ -20,23 +25,23 @@ export async function generateMetadata({
   const pub = entry?.fields as ContentfulFields;
   if (!pub) return {};
   const coverUrl = pub.cover?.fields?.file?.url as string | undefined;
-  return {
-    title: `${pub.title}, by ${pub.author}`,
-    description: `${pub.title}, by ${pub.author}. ${
+  const blurb = richTextToPlainText(pub.description);
+  const description =
+    blurb ||
+    `${pub.title}, by ${pub.author}. ${
       pub.genre
         ? `${pub.genre} published in ${pub.format}.`
         : `published in ${pub.format}.`
-    }`,
+    }`;
+  return {
+    title: `${pub.title}, by ${pub.author}`,
+    description,
     alternates: {
       canonical: `/catalogue/${pub.slug}`,
     },
     openGraph: {
       title: `${pub.title}, by ${pub.author}`,
-      description: `${pub.title}, by ${pub.author}. ${
-        pub.genre
-          ? `${pub.genre} published in ${pub.format}.`
-          : `published in ${pub.format}.`
-      }`,
+      description,
       type: "article",
       images: coverUrl
         ? [
@@ -63,12 +68,27 @@ export default async function PublicationPage({
   return (
     <>
       {pub && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(productJsonLd(pub)),
-          }}
-        />
+        <>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: serializeJsonLd(
+                productJsonLd(pub, richTextToPlainText(pub.description))
+              ),
+            }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: serializeJsonLd(
+                breadcrumbJsonLd([
+                  { name: "catalogue", url: "/catalogue" },
+                  { name: pub.title, url: `/catalogue/${pub.slug}` },
+                ])
+              ),
+            }}
+          />
+        </>
       )}
       <PublicationClient publication={entry} />
     </>
