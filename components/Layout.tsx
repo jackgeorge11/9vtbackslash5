@@ -40,7 +40,7 @@ export default function Layout({ children, page }: LayoutProps) {
         )}
       </nav>
       <div className="footer">
-        <p className="--muted">&copy; 2024 9VT\5</p>
+        <p className="--muted">&copy; {new Date().getFullYear()} 9VT\5</p>
         <p className="--muted">
           <a
             target="_blank"
