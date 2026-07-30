@@ -37,7 +37,7 @@ export default async function SubmissionsPage() {
         </h2>
         <h2>
           if we love it, we&apos;ll work with you to bring it further into the
-          world. `
+          world.
         </h2>
         <h1>open calls</h1>
         <h2 className="--muted">
@@ -47,11 +47,7 @@ export default async function SubmissionsPage() {
         {openCalls.map((call) => {
           const f = call.fields as ContentfulFields;
           return (
-            <Link
-              key={f.slug}
-              href={`/submissions/${f.slug}`}
-              className="m-0"
-            >
+            <Link key={f.slug} href={`/submissions/${f.slug}`} className="m-0">
               {f.title}
             </Link>
           );
