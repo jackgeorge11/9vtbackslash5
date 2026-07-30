@@ -7,7 +7,7 @@ import { CartContext } from "@/contexts/CartContext";
 import { ColorContext } from "@/contexts/ColorContext";
 import { NAV_ITEMS } from "@/lib/constants";
 
-const slashes = " \\\\ ";
+const slashes = "\\\\";
 
 interface LayoutProps {
   children: ReactNode;
@@ -36,7 +36,7 @@ export default function Layout({ children, page }: LayoutProps) {
               </Link>
               {(i < 4 || (i < 5 && Boolean(cartTotal))) && slashes}
             </span>
-          ) : null
+          ) : null,
         )}
       </nav>
       <div className="footer">

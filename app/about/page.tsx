@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Layout from "@/components/Layout";
 import Window from "@/components/Window";
 import type { Metadata } from "next";
@@ -26,26 +25,12 @@ export default function AboutPage() {
           our interests lie across an array of disciplines, from the work of
           visual artists to the publication of academic theses.
         </h2>
-        <h2 className="ta-right">
-          <Link href="/catalogue">click here</Link> to check out our catalogue,
-        </h2>
-        <h2 className="ta-right">
-          or{" "}
-          <a
-            href="https://instagram.com/9vtbackslash5"
-            target="_blank"
-            rel="noopener noreferrer nofollow"
-          >
-            click here
-          </a>{" "}
-          to check out our Instagram.
-        </h2>
         <h1>our name</h1>
         <h2>
           a product of chance: our previous creative lead, Isabella, wandered
           into her local tattoo shop with numbers, letters and characters
-          scrawled out individually on torn fragments of notebook paper, enclosed
-          in a winter cap.
+          scrawled out individually on torn fragments of notebook paper,
+          enclosed in a winter cap.
         </h2>
         <h2>
           she invited the first available artist to roll a six-sided die, give
@@ -74,7 +59,8 @@ export default function AboutPage() {
           jack@9vtbackslash5.com
         </a>
         <h2>
-          Lord Merryweather <span className="--muted">(editor in chief)</span>
+          Marlon Paine (Merryweather){" "}
+          <span className="--muted">(editor in chief)</span>
         </h2>
         <a
           href="mailto:merryweather@9vtbackslash5.com"
@@ -84,8 +70,7 @@ export default function AboutPage() {
           merryweather@9vtbackslash5.com
         </a>
         <h2>
-          Zelda Solomon{" "}
-          <span className="--muted">(creative lead, editor)</span>
+          Zelda Solomon <span className="--muted">(creative lead, editor)</span>
         </h2>
         <a
           href="mailto:zelda@9vtbackslash5.com"

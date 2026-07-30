@@ -19,6 +19,14 @@ export const metadata: Metadata = {
     title: "9VT\\5",
     description:
       "independent publishing house and creative platform for artists, authors, and others.",
+    images: [
+      {
+        url: "/brand/og-default.png",
+        width: 1200,
+        height: 630,
+        alt: "9VT\\5 logo",
+      },
+    ],
   },
   twitter: {
     card: "summary",

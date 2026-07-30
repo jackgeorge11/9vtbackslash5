@@ -2,7 +2,41 @@
 
 import { useState, createContext, useEffect, ReactNode } from "react";
 import { sleep } from "@/lib/utils";
-import type { CartItem } from "@/lib/types";
+import type { CartItem, ShippingOption } from "@/lib/types";
+
+// Carts persisted by the legacy Gatsby site stored each shipping option as a
+// node with a JSON string at internal.content; the current shape is {to, cost}.
+const normalizeShippingOption = (option: unknown): ShippingOption | null => {
+  const o = option as Record<string, any>;
+  if (typeof o?.to === "string" && typeof o?.cost === "number") {
+    return { to: o.to, cost: o.cost };
+  }
+  const raw = o?.internal?.content ?? o?.fields?.content;
+  if (typeof raw === "string") {
+    try {
+      const parsed = JSON.parse(raw);
+      if (typeof parsed?.to === "string" && typeof parsed?.cost === "number") {
+        return { to: parsed.to, cost: parsed.cost };
+      }
+    } catch {
+      return null;
+    }
+  }
+  return null;
+};
+
+const sanitizeCart = (stored: unknown): CartItem[] => {
+  if (!Array.isArray(stored)) return [];
+  const cart: CartItem[] = [];
+  for (const item of stored) {
+    if (!item || typeof item.slug !== "string" || !Array.isArray(item.shipping))
+      continue;
+    const shipping = item.shipping.map(normalizeShippingOption);
+    if (shipping.some((o: ShippingOption | null) => o === null)) continue;
+    cart.push({ ...item, shipping });
+  }
+  return cart;
+};
 
 interface CartContextType {
   cart: CartItem[];
@@ -102,10 +136,15 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     setCartUpdating(true);
-    if (localStorage?.getItem("cart")) {
-      const localCart: CartItem[] = JSON.parse(
-        localStorage.getItem("cart")!
-      );
+    const stored = localStorage?.getItem("cart");
+    if (stored) {
+      let localCart: CartItem[] = [];
+      try {
+        localCart = sanitizeCart(JSON.parse(stored));
+      } catch {
+        localCart = [];
+      }
+      localStorage.setItem("cart", JSON.stringify(localCart));
       setCart(localCart);
       setCartTotal(localCart.reduce((x, y) => x + y.quantity, 0));
     }

@@ -41,10 +41,7 @@ export default function PayPalCheckout({
                   shipping: {
                     currency_code: "USD",
                     value: (
-                      (JSON.parse(
-                        item.shipping[Number(item.shippingOption)].fields
-                          .content
-                      ).cost *
+                      (item.shipping[Number(item.shippingOption)].cost *
                         item.quantity) /
                       100
                     ).toFixed(2),

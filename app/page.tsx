@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout";
 import HomeLogo from "@/components/HomeLogo";
-import { organizationJsonLd } from "@/lib/jsonLd";
+import { organizationJsonLd, serializeJsonLd } from "@/lib/jsonLd";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -16,7 +16,7 @@ export default function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(organizationJsonLd()),
+          __html: serializeJsonLd(organizationJsonLd()),
         }}
       />
       <HomeLogo />

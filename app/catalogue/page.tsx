@@ -1,6 +1,6 @@
 import { getCatalogueItems } from "@/lib/contentful";
 import CatalogueClient from "./CatalogueClient";
-import { breadcrumbJsonLd } from "@/lib/jsonLd";
+import { breadcrumbJsonLd, serializeJsonLd } from "@/lib/jsonLd";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -19,7 +19,7 @@ export default async function CataloguePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
+          __html: serializeJsonLd(
             breadcrumbJsonLd([{ name: "catalogue", url: "/catalogue" }])
           ),
         }}
