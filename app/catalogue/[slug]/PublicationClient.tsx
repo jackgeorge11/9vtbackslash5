@@ -55,6 +55,10 @@ export default function PublicationClient({
     ? dayjs(pub.releaseDate).format("MMMM YYYY")
     : null;
 
+  // A preorder is open while its ship date is still ahead.
+  const isPreorder =
+    !!pub.preorder && dayjs(pub.preorderShipDate).isAfter(dayjs());
+
   return (
     <Product
       src={coverUrl ? `https:${coverUrl}` : ""}
@@ -70,11 +74,11 @@ export default function PublicationClient({
       ) : (
         <>
           <div className="product-header">
+            {/* Open preorders sell ahead of release; everything else goes
+                on sale once it has been released. */}
             {!pub.soldOut &&
               !pub.saleEnded &&
-              ((pub.preorder &&
-                !dayjs(pub.preorderShipDate).isAfter(dayjs())) ||
-                !dayjs(pub.releaseDate).isAfter(dayjs())) && (
+              (isPreorder || !dayjs(pub.releaseDate).isAfter(dayjs())) && (
                 <>
                   {cart?.some((i) => i.slug === pub.slug) ? (
                     <Link className="button disarm" href="/cart">
@@ -132,6 +136,12 @@ export default function PublicationClient({
           {pub.copies && (
             <h2 className="--muted">
               this edition is limited to {pub.copies} copies.
+            </h2>
+          )}
+          {isPreorder && (
+            <h2 className="--muted">
+              this book is currently available for preorder and ships{" "}
+              {dayjs(pub.preorderShipDate).format("DD MMMM")}.
             </h2>
           )}
           <h1>details</h1>
