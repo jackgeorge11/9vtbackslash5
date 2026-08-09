@@ -141,7 +141,7 @@ export default function PublicationClient({
           {isPreorder && (
             <h2 className="--muted">
               this book is currently available for preorder and ships{" "}
-              {dayjs(pub.preorderShipDate).format("DD MMMM")}.
+              {dayjs(pub.preorderShipDate).format("MMMM D")}.
             </h2>
           )}
           <h1>details</h1>
