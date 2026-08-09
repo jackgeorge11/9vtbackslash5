@@ -58,7 +58,7 @@ const NAMES: Record<string, string[]> = {
 export function countriesForDestination(to: string): string[] | null {
   const parts = to
     .toLowerCase()
-    .replace(/\bthe\b/g, " ")
+    .replace(/\b(?:the|rest of)\b/g, " ")
     .split(/\s+(?:and|or)\s+|,/);
   const codes = new Set<string>();
   for (const part of parts) {
