@@ -13,6 +13,31 @@ export async function getCatalogueItems(): Promise<Entry<EntrySkeletonType>> {
   return entries.items[0];
 }
 
+// Every publication, limited to what the cart needs to price a line. The cart
+// joins against this by slug rather than querying the slugs it holds, because
+// those live in localStorage and are not known at render time on the server.
+export async function getAllPublications(): Promise<Entry<EntrySkeletonType>[]> {
+  const entries = await client.getEntries({
+    content_type: "publication",
+    include: 1,
+    select: [
+      "fields.slug",
+      "fields.title",
+      "fields.author",
+      "fields.price",
+      "fields.tax",
+      "fields.shipping",
+      "fields.cover",
+      "fields.blurb",
+      "fields.soldOut",
+      "fields.saleEnded",
+      "fields.preorder",
+      "fields.preorderShipDate",
+    ],
+  });
+  return entries.items;
+}
+
 export async function getPublication(
   slug: string
 ): Promise<Entry<EntrySkeletonType>> {

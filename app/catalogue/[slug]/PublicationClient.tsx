@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
@@ -25,29 +25,7 @@ export default function PublicationClient({
   const description = pub?.description;
 
   const { loading } = useContext(ColorContext);
-  const { addCartItems, cart } = useContext(CartContext);
-
-  const [, setTotal] = useState(pub.price + pub.price * pub.tax);
-  const [subtotal, setSubtotal] = useState(pub.price);
-  const [buyerOptions, setBuyerOptions] = useState({
-    quantity: 1,
-    shipping: "Select",
-  });
-
-  useEffect(() => {
-    setSubtotal(pub.price * Number(buyerOptions.quantity));
-  }, [buyerOptions.quantity, pub.price]);
-
-  useEffect(() => {
-    setTotal(
-      subtotal +
-        subtotal * pub.tax +
-        (buyerOptions.shipping !== "Select"
-          ? pub.shipping[Number(buyerOptions.shipping)].cost *
-            buyerOptions.quantity
-          : 0)
-    );
-  }, [buyerOptions, subtotal, pub]);
+  const { addCartItem, cart } = useContext(CartContext);
 
   const publicationWindow = useRef<HTMLElement>(null);
 
@@ -91,27 +69,7 @@ export default function PublicationClient({
                       </h4>
                     </Link>
                   ) : (
-                    <button
-                      onClick={() =>
-                        addCartItems({
-                          quantity: 1,
-                          maxQuantity: 5,
-                          slug: pub.slug,
-                          url: `/catalogue/${pub.slug}`,
-                          type: publication.sys.contentType.sys.id,
-                          price: pub.price,
-                          tax: pub.tax,
-                          title: pub.title,
-                          author: pub.author,
-                          image: coverUrl
-                            ? `https:${coverUrl}`
-                            : undefined,
-                          shipping: pub.shipping ?? [],
-                          preorder: pub.preorder,
-                          preorderShipDate: pub.preorderShipDate,
-                        })
-                      }
-                    >
+                    <button onClick={() => addCartItem(pub.slug)}>
                       <h4>add to cart</h4>
                     </button>
                   )}
