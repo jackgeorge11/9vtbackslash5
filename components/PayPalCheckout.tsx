@@ -1,18 +1,22 @@
 "use client";
 
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-import type { CartItem } from "@/lib/types";
+import { lineShipping, lineSubtotal, lineTax, lineTotal } from "@/lib/cart";
+import type { CartLine } from "@/lib/cart";
 
 interface PayPalCheckoutProps {
-  cart: CartItem[];
-  getItemTotal: (item: CartItem) => number;
+  lines: CartLine[];
   clearCart: () => Promise<void>;
   onSuccess: (message: string) => void;
 }
 
+const usd = (cents: number) => ({
+  currency_code: "USD",
+  value: (cents / 100).toFixed(2),
+});
+
 export default function PayPalCheckout({
-  cart,
-  getItemTotal,
+  lines,
   clearCart,
   onSuccess,
 }: PayPalCheckoutProps) {
@@ -28,42 +32,22 @@ export default function PayPalCheckout({
         createOrder={(_data, actions) => {
           return actions.order.create({
             intent: "CAPTURE",
-            purchase_units: cart.map((item) => ({
-              reference_id: item.slug,
+            purchase_units: lines.map((line) => ({
+              reference_id: line.entry.slug,
               amount: {
-                currency_code: "USD",
-                value: (getItemTotal(item) / 100).toFixed(2),
+                ...usd(lineTotal(line)),
                 breakdown: {
-                  item_total: {
-                    currency_code: "USD",
-                    value: ((item.quantity * item.price) / 100).toFixed(2),
-                  },
-                  shipping: {
-                    currency_code: "USD",
-                    value: (
-                      (item.shipping[Number(item.shippingOption)].cost *
-                        item.quantity) /
-                      100
-                    ).toFixed(2),
-                  },
-                  tax_total: {
-                    currency_code: "USD",
-                    value: (
-                      (item.quantity * item.price * item.tax) /
-                      100
-                    ).toFixed(2),
-                  },
+                  item_total: usd(lineSubtotal(line)),
+                  shipping: usd(lineShipping(line)),
+                  tax_total: usd(lineTax(line)),
                 },
               },
               items: [
                 {
-                  unit_amount: {
-                    currency_code: "USD",
-                    value: String((item.price / 100).toFixed(2)),
-                  },
-                  quantity: String(item.quantity),
-                  name: item.title,
-                  description: item.blurb ? item.blurb : "",
+                  unit_amount: usd(line.pub!.price),
+                  quantity: String(line.entry.quantity),
+                  name: line.pub!.title,
+                  description: line.pub!.blurb ?? "",
                 },
               ],
             })),
