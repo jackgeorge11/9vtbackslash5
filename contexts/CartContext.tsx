@@ -25,6 +25,15 @@ const normalizeShippingOption = (option: unknown): ShippingOption | null => {
   return null;
 };
 
+// Tax is a fraction (0.08625 == 8.625%), but the cart keeps whatever the CMS
+// held when the item was added, so a percentage entered without converting
+// stays in localStorage long after the CMS is corrected. Anything at or above
+// 1 is that mistake — 8.625 billed as 862.5%.
+const normalizeTax = (tax: unknown): number => {
+  if (typeof tax !== "number" || !Number.isFinite(tax) || tax < 0) return 0;
+  return tax >= 1 ? tax / 100 : tax;
+};
+
 const sanitizeCart = (stored: unknown): CartItem[] => {
   if (!Array.isArray(stored)) return [];
   const cart: CartItem[] = [];
@@ -33,7 +42,7 @@ const sanitizeCart = (stored: unknown): CartItem[] => {
       continue;
     const shipping = item.shipping.map(normalizeShippingOption);
     if (shipping.some((o: ShippingOption | null) => o === null)) continue;
-    cart.push({ ...item, shipping });
+    cart.push({ ...item, shipping, tax: normalizeTax(item.tax) });
   }
   return cart;
 };
@@ -82,7 +91,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         setCartUpdating(false);
       }
     } else {
-      const newCart = [...cart, item];
+      const newCart = [...cart, { ...item, tax: normalizeTax(item.tax) }];
       localStorage.setItem("cart", JSON.stringify(newCart));
       setCart(newCart);
       await sleep(500);

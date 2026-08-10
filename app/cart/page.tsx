@@ -76,7 +76,9 @@ export default function CartPage() {
                           <Link href={item.url}>{item.title}</Link>{" "}
                           {item.preorder &&
                           dayjs(item.preorderShipDate).isAfter(dayjs()) ? (
-                            <span className="--muted">(preorder)</span>
+                            <span className="--muted preorder">
+                              (preorder)
+                            </span>
                           ) : (
                             ""
                           )}
@@ -85,8 +87,9 @@ export default function CartPage() {
                           {item.author}
                           {item.preorder &&
                           dayjs(item.preorderShipDate).isAfter(dayjs())
-                            ? ` \\\\ this item ships from
-                              ${dayjs(item.preorderShipDate).format("MMMM Do")}`
+                            ? ` \\\\ this item ships from ${dayjs(
+                                item.preorderShipDate
+                              ).format("MMMM D")}`
                             : ""}
                         </h3>
 
