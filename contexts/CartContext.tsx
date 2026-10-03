@@ -45,10 +45,23 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const cartTotal = cart.reduce((count, entry) => count + entry.quantity, 0);
 
+  // Storage can be unavailable rather than merely empty — a webview with
+  // cookies blocked, or private browsing at its quota — and it throws when it
+  // is. Losing the cart on reload is a far better outcome than every click
+  // rejecting, so the write is allowed to fail and the session carries on in
+  // memory.
+  const persist = (entries: CartEntry[]) => {
+    try {
+      localStorage.setItem("cart", JSON.stringify(entries));
+    } catch {
+      // nothing to recover: the in-memory cart is still correct
+    }
+  };
+
   const commit = async (entries: CartEntry[]) => {
     setCartUpdating(true);
     setCart(entries);
-    localStorage.setItem("cart", JSON.stringify(entries));
+    persist(entries);
     await sleep(500);
     setCartUpdating(false);
   };
@@ -107,7 +120,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     setCartUpdating(true);
-    const stored = localStorage?.getItem("cart");
+    let stored: string | null = null;
+    try {
+      stored = localStorage.getItem("cart");
+    } catch {
+      // storage is blocked; this visit starts from an empty cart
+    }
     if (stored) {
       let entries: CartEntry[] = [];
       try {
@@ -120,9 +138,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       } catch {
         entries = [];
       }
-      localStorage.setItem("cart", JSON.stringify(entries));
+      persist(entries);
       setCart(entries);
     }
+    // Set last and unconditionally: anything waiting to merge into the stored
+    // cart waits on this, and a reader that threw above would otherwise leave
+    // the Meta checkout import stuck on its loading state forever.
     setCartReady(true);
     sleep(500).then(() => setCartUpdating(false));
   }, []);
