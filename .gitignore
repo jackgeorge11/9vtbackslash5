@@ -3,3 +3,5 @@ node_modules/
 .env.local
 .env
 tsconfig.tsbuildinfo
+.claude/settings.local.json
+.DS_Store
