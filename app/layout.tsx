@@ -36,6 +36,11 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
   alternates: { canonical: "/" },
+  verification: {
+    other: {
+      "facebook-domain-verification": "zw0oytn8o23mt18m9igq1uhln4xkje",
+    },
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
