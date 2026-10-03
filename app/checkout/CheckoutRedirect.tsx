@@ -25,7 +25,13 @@ export default function CheckoutRedirect({ entries }: CheckoutRedirectProps) {
     // `replace` rather than `push`: this route is a step the buyer passes
     // through, and leaving it in history would re-run the import — doubling
     // their quantities — the moment they pressed Back from the cart.
-    mergeCartItems(entries).then(() => router.replace("/cart"));
+    //
+    // The move to the cart happens either way. Stranding a buyer on a loading
+    // state is the one outcome worth ruling out, and the cart they land on
+    // tells them what it actually holds better than this screen could.
+    mergeCartItems(entries)
+      .catch(() => {})
+      .then(() => router.replace("/cart"));
   }, [cartReady, entries, mergeCartItems, router]);
 
   return (
