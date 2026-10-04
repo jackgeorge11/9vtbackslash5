@@ -224,6 +224,10 @@ export default function CartClient({ publications }: CartClientProps) {
             <Link href="/catalogue">catalogue</Link>?
           </h2>
         )}
+        <h3 className="--muted mt-md">
+          <Link href="/returns">return policy</Link> \\{" "}
+          <Link href="/privacy">privacy policy</Link>
+        </h3>
       </Window>
     </Layout>
   );
