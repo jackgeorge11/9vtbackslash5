@@ -12,27 +12,29 @@ interface CheckoutRedirectProps {
 }
 
 export default function CheckoutRedirect({ entries }: CheckoutRedirectProps) {
-  const { mergeCartItems, cartReady } = useContext(CartContext);
+  const { setCartItems, cartReady } = useContext(CartContext);
   const router = useRouter();
 
-  // Strict Mode runs mount effects twice in development, and a resolved import
-  // left to run again would add every quantity a second time.
+  // Strict Mode runs mount effects twice in development. The import is now
+  // idempotent, so a second run would land on the same cart; this only saves
+  // the redundant write.
   const imported = useRef(false);
 
   useEffect(() => {
     if (!cartReady || imported.current) return;
     imported.current = true;
     // `replace` rather than `push`: this route is a step the buyer passes
-    // through, and leaving it in history would re-run the import — doubling
-    // their quantities — the moment they pressed Back from the cart.
+    // through, and leaving it in history would re-run the import the moment
+    // they pressed Back from the cart — throwing away anything they had
+    // changed there.
     //
     // The move to the cart happens either way. Stranding a buyer on a loading
     // state is the one outcome worth ruling out, and the cart they land on
     // tells them what it actually holds better than this screen could.
-    mergeCartItems(entries)
+    setCartItems(entries)
       .catch(() => {})
       .then(() => router.replace("/cart"));
-  }, [cartReady, entries, mergeCartItems, router]);
+  }, [cartReady, entries, setCartItems, router]);
 
   return (
     <Layout page="cart">

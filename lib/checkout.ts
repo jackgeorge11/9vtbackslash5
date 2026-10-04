@@ -34,30 +34,3 @@ export function parseProducts(
     quantity: Math.min(quantity, MAX_QUANTITY),
   }));
 }
-
-// Folds an imported set of entries into a cart that may already have things in
-// it. The buyer's own cart wins on shipping: a destination they already chose
-// for a title is kept rather than reset by an import of the same title.
-export function mergeEntries(
-  cart: CartEntry[],
-  incoming: CartEntry[]
-): CartEntry[] {
-  const merged = cart.map((entry) => ({ ...entry }));
-
-  for (const entry of incoming) {
-    const existing = merged.find((item) => item.slug === entry.slug);
-    if (existing) {
-      existing.quantity = Math.min(
-        existing.quantity + entry.quantity,
-        MAX_QUANTITY
-      );
-    } else {
-      merged.push({
-        ...entry,
-        quantity: Math.min(entry.quantity, MAX_QUANTITY),
-      });
-    }
-  }
-
-  return merged;
-}
