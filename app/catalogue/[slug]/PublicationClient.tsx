@@ -24,13 +24,10 @@ export default function PublicationClient({
   const coverUrl: string | undefined = pub?.cover?.fields?.file?.url;
   const description = pub?.description;
 
-  // Zooming prefers the photograph of the physical book where there is one: it
-  // shows the object a buyer is actually being sold — paper, binding, size in
-  // a hand — which a flat cover scan at a larger size cannot. Titles without
-  // one fall back to the cover rather than losing the zoom.
-  const alternateFile = pub?.alternatePhoto?.fields?.file;
-  const zoomFile = alternateFile ?? pub?.cover?.fields?.file;
-  const zoomSize = zoomFile?.details?.image;
+  // Zooming shows the cover at the asset's own dimensions, rather than at a
+  // size guessed in the component and then upscaled to reach it.
+  const coverFile = pub?.cover?.fields?.file;
+  const coverSize = coverFile?.details?.image;
 
   const { loading } = useContext(ColorContext);
   const { addCartItem, cart } = useContext(CartContext);
@@ -50,14 +47,12 @@ export default function PublicationClient({
       src={coverUrl ? `https:${coverUrl}` : ""}
       alt={`${pub.title} cover`}
       zoom={
-        zoomFile?.url
+        coverFile?.url
           ? {
-              src: `https:${zoomFile.url}`,
-              alt: alternateFile
-                ? `${pub.title}, photographed`
-                : `${pub.title} cover`,
-              width: zoomSize?.width ?? 1200,
-              height: zoomSize?.height ?? 1600,
+              src: `https:${coverFile.url}`,
+              alt: `${pub.title} cover`,
+              width: coverSize?.width ?? 1200,
+              height: coverSize?.height ?? 1600,
             }
           : undefined
       }

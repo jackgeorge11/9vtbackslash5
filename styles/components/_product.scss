@@ -135,6 +135,9 @@
   position: relative;
 
   .image {
+    // The anchor wrapping the photo is inline by default, and the global `a`
+    // rule gives it `width: fit-content`; neither lets the sizing below apply.
+    display: block;
     max-width: 100%;
     width: 100%;
     max-height: 100%;

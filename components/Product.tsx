@@ -89,7 +89,16 @@ export default function Product({
 
     return (
       <div className="zoom" style={{ backgroundColor: color }}>
-        <div className="image">
+        {/* The photo closes the view it opened, which is where anyone who has
+            finished looking at it already has their cursor. */}
+        <a
+          className="image"
+          href={pathname}
+          onClick={(event) => {
+            event.preventDefault();
+            closeZoom();
+          }}
+        >
           <Image
             src={image.src}
             alt={image.alt}
@@ -97,7 +106,7 @@ export default function Product({
             height={image.height}
             style={{ width: "100%", height: "auto" }}
           />
-        </div>
+        </a>
         <div className="back">
           <h2>
             {/* A real href, so the link is navigable without JavaScript and
