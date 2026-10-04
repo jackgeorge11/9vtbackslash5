@@ -1,6 +1,6 @@
-import Link from "next/link";
 import Layout from "@/components/Layout";
 import Window from "@/components/Window";
+import PolicyFooter from "@/components/PolicyFooter";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -80,11 +80,7 @@ export default function AboutPage() {
         >
           zelda@9vtbackslash5.com
         </a>
-        <h1>the small print</h1>
-        <h2>
-          <Link href="/privacy">privacy policy</Link> \\{" "}
-          <Link href="/returns">return policy</Link>
-        </h2>
+        <PolicyFooter />
       </Window>
     </Layout>
   );

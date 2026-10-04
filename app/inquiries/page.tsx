@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Layout from "@/components/Layout";
 import Window from "@/components/Window";
+import PolicyFooter from "@/components/PolicyFooter";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -54,6 +55,7 @@ export default function InquiriesPage() {
           </a>
           .
         </h2>
+        <PolicyFooter />
       </Window>
     </Layout>
   );
