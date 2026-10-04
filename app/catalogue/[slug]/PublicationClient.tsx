@@ -74,7 +74,14 @@ export default function PublicationClient({
           <div className="product-header">
             {/* Open preorders sell ahead of release; everything else goes
                 on sale once it has been released. */}
-            {!pub.soldOut &&
+            {/* A sold-out title keeps the button and wears it out, rather
+                than leaving a gap the buyer has to read the details list to
+                explain. */}
+            {pub.soldOut ? (
+              <button disabled>
+                <h4>sold out</h4>
+              </button>
+            ) : (
               !pub.saleEnded &&
               (isPreorder || !dayjs(pub.releaseDate).isAfter(dayjs())) && (
                 <>
@@ -94,11 +101,8 @@ export default function PublicationClient({
                     </button>
                   )}
                 </>
-              )}
-            {/* Said where the buyer looks for the button rather than only in
-                the details below, which is where they would otherwise hunt
-                for the reason nothing is there to click. */}
-            {pub.soldOut && <h4 className="sold-out --muted">sold out</h4>}
+              )
+            )}
             <h1 className="italic title">{pub.title}</h1>
           </div>
           <h2 className="--muted ta-right author">by {pub.author}</h2>

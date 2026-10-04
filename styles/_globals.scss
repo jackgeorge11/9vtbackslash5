@@ -252,6 +252,21 @@ button {
     animation: none;
   }
 
+  // Kept in place rather than removed, so the answer to "can I buy this" sits
+  // where the buyer is already looking. The glow invites a click and the hover
+  // promises one, so both come off.
+  &:disabled {
+    background-color: $muted;
+    animation: none;
+    cursor: default;
+
+    &:hover {
+      background-color: $muted;
+      border-color: transparent;
+      color: $light;
+    }
+  }
+
   &.inverted {
     background-color: transparent;
     color: black;
