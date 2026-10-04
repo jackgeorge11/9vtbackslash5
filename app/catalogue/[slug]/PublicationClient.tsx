@@ -24,6 +24,14 @@ export default function PublicationClient({
   const coverUrl: string | undefined = pub?.cover?.fields?.file?.url;
   const description = pub?.description;
 
+  // Zooming prefers the photograph of the physical book where there is one: it
+  // shows the object a buyer is actually being sold — paper, binding, size in
+  // a hand — which a flat cover scan at a larger size cannot. Titles without
+  // one fall back to the cover rather than losing the zoom.
+  const alternateFile = pub?.alternatePhoto?.fields?.file;
+  const zoomFile = alternateFile ?? pub?.cover?.fields?.file;
+  const zoomSize = zoomFile?.details?.image;
+
   const { loading } = useContext(ColorContext);
   const { addCartItem, cart } = useContext(CartContext);
 
@@ -41,6 +49,18 @@ export default function PublicationClient({
     <Product
       src={coverUrl ? `https:${coverUrl}` : ""}
       alt={`${pub.title} cover`}
+      zoom={
+        zoomFile?.url
+          ? {
+              src: `https:${zoomFile.url}`,
+              alt: alternateFile
+                ? `${pub.title}, photographed`
+                : `${pub.title} cover`,
+              width: zoomSize?.width ?? 1200,
+              height: zoomSize?.height ?? 1600,
+            }
+          : undefined
+      }
       scroller={publicationWindow}
       crumbs={[
         { title: "catalogue", slug: "/catalogue" },
@@ -75,6 +95,10 @@ export default function PublicationClient({
                   )}
                 </>
               )}
+            {/* Said where the buyer looks for the button rather than only in
+                the details below, which is where they would otherwise hunt
+                for the reason nothing is there to click. */}
+            {pub.soldOut && <h4 className="sold-out --muted">sold out</h4>}
             <h1 className="italic title">{pub.title}</h1>
           </div>
           <h2 className="--muted ta-right author">by {pub.author}</h2>
