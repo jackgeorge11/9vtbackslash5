@@ -1,7 +1,11 @@
 import type { Entry, EntrySkeletonType } from "contentful";
 import type { CartEntry, ContentfulFields, ShippingOption } from "@/lib/types";
 
-export const MAX_QUANTITY = 5;
+// The ceiling every quantity passes through: the cart's own selector, a cart
+// read back from storage, and a quantity arriving on a Meta checkout link.
+// Raised from 5 so an import is less likely to be silently cut down to it,
+// which is one way a link can produce a cart Meta reads as the wrong size.
+export const MAX_QUANTITY = 10;
 
 // Carts written before this stored a copy of the whole publication, which then
 // drifted from the CMS. Only the slug and quantity are read back — both shapes
