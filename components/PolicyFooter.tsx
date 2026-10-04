@@ -6,7 +6,7 @@ import Link from "next/link";
 // what happens if a book turns up damaged.
 export default function PolicyFooter() {
   return (
-    <h4 className="--muted ta-right mt-md">
+    <h4 className="policy-footer ta-right mt-md">
       <Link href="/returns">return policy</Link> \\{" "}
       <Link href="/privacy">privacy policy</Link>
     </h4>
