@@ -258,7 +258,7 @@ button {
   &:disabled {
     background-color: $muted;
     animation: none;
-    cursor: default;
+    cursor: not-allowed;
 
     &:hover {
       background-color: $muted;
