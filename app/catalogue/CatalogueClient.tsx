@@ -78,7 +78,7 @@ export default function CatalogueClient({ catalogue }: CatalogueClientProps) {
                   <h3>
                     {dayjs(f.releaseDate).format("MMM YYYY")}
                     {f.soldOut && (
-                      <span className="--muted"> \\ sold out</span>
+                      <span className="--muted"> (sold out)</span>
                     )}
                   </h3>
                 </div>
