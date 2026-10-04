@@ -71,6 +71,14 @@
     //   }
     // }
 
+    // `.product h4 { display: none }` above hides the headings that belong
+    // only to the details list. This one stands in for the add-to-cart button,
+    // so it is shown and given the shape that button's label has.
+    .sold-out {
+      display: block;
+      margin: $g-sm $g-sm $g-sm 0;
+    }
+
     .title {
       margin: 0;
       margin-left: auto;
