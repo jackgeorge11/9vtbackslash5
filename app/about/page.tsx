@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
 import Window from "@/components/Window";
+import PolicyFooter from "@/components/PolicyFooter";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -79,6 +80,7 @@ export default function AboutPage() {
         >
           zelda@9vtbackslash5.com
         </a>
+        <PolicyFooter />
       </Window>
     </Layout>
   );

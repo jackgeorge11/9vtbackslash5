@@ -3,6 +3,7 @@
 import { useState, createContext, useEffect, ReactNode } from "react";
 import { sleep } from "@/lib/utils";
 import { MAX_QUANTITY, readStoredEntry } from "@/lib/cart";
+import { mergeEntries } from "@/lib/checkout";
 import type { CartEntry } from "@/lib/types";
 
 interface CartContextType {
@@ -10,11 +11,13 @@ interface CartContextType {
   addCartItem: (slug: string) => Promise<void>;
   removeCartItem: (slug: string) => Promise<void>;
   updateCartQuantity: (slug: string, quantity: number) => Promise<void>;
+  mergeCartItems: (entries: CartEntry[]) => Promise<void>;
   setCartShipping: (slug: string, to: string) => Promise<void>;
   clearCart: () => Promise<void>;
   cartTotal: number;
   cartUpdating: boolean;
   setCartUpdating: (v: boolean) => void;
+  cartReady: boolean;
 }
 
 export const CartContext = createContext<CartContextType>({
@@ -22,23 +25,43 @@ export const CartContext = createContext<CartContextType>({
   addCartItem: async () => {},
   removeCartItem: async () => {},
   updateCartQuantity: async () => {},
+  mergeCartItems: async () => {},
   setCartShipping: async () => {},
   clearCart: async () => {},
   cartTotal: 0,
   cartUpdating: false,
   setCartUpdating: () => {},
+  cartReady: false,
 });
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartEntry[]>([]);
   const [cartUpdating, setCartUpdating] = useState(false);
+  // Until the stored cart has been read back, `cart` is empty because nothing
+  // has loaded it yet, which is indistinguishable from an empty cart. Anything
+  // that adds to what is already there — the Meta checkout import — has to wait
+  // for this, or it merges into the wrong baseline and drops the real cart.
+  const [cartReady, setCartReady] = useState(false);
 
   const cartTotal = cart.reduce((count, entry) => count + entry.quantity, 0);
+
+  // Storage can be unavailable rather than merely empty — a webview with
+  // cookies blocked, or private browsing at its quota — and it throws when it
+  // is. Losing the cart on reload is a far better outcome than every click
+  // rejecting, so the write is allowed to fail and the session carries on in
+  // memory.
+  const persist = (entries: CartEntry[]) => {
+    try {
+      localStorage.setItem("cart", JSON.stringify(entries));
+    } catch {
+      // nothing to recover: the in-memory cart is still correct
+    }
+  };
 
   const commit = async (entries: CartEntry[]) => {
     setCartUpdating(true);
     setCart(entries);
-    localStorage.setItem("cart", JSON.stringify(entries));
+    persist(entries);
     await sleep(500);
     setCartUpdating(false);
   };
@@ -74,6 +97,15 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
+  // Adds several titles at once, summing against whatever is already in the
+  // cart. `addCartItem` cannot be called in a loop to do this: each call reads
+  // `cart` from the render it was created in, so every item after the first
+  // would merge into a stale array and be lost on commit.
+  const mergeCartItems = async (entries: CartEntry[]) => {
+    if (!entries.length) return;
+    await commit(mergeEntries(cart, entries));
+  };
+
   const setCartShipping = async (slug: string, to: string) => {
     await commit(
       cart.map((entry) =>
@@ -88,7 +120,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     setCartUpdating(true);
-    const stored = localStorage?.getItem("cart");
+    let stored: string | null = null;
+    try {
+      stored = localStorage.getItem("cart");
+    } catch {
+      // storage is blocked; this visit starts from an empty cart
+    }
     if (stored) {
       let entries: CartEntry[] = [];
       try {
@@ -101,9 +138,13 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       } catch {
         entries = [];
       }
-      localStorage.setItem("cart", JSON.stringify(entries));
+      persist(entries);
       setCart(entries);
     }
+    // Set last and unconditionally: anything waiting to merge into the stored
+    // cart waits on this, and a reader that threw above would otherwise leave
+    // the Meta checkout import stuck on its loading state forever.
+    setCartReady(true);
     sleep(500).then(() => setCartUpdating(false));
   }, []);
 
@@ -114,11 +155,13 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         addCartItem,
         removeCartItem,
         updateCartQuantity,
+        mergeCartItems,
         setCartShipping,
         clearCart,
         cartTotal,
         cartUpdating,
         setCartUpdating,
+        cartReady,
       }}
     >
       {children}

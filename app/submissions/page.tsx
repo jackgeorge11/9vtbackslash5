@@ -41,8 +41,8 @@ export default async function SubmissionsPage() {
         </h2>
         <h1>open calls</h1>
         <h2 className="--muted">
-          (this is where we list open calls for our anthologies, and various
-          other ideas. just because we don't have any open calls at moment
+          (this is where we list open calls for our anthologies and various
+          other ideas. just because we don't have any open calls at the moment
           doesn't mean you shouldn't send us your work.)
         </h2>
         {openCalls.map((call) => {

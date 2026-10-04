@@ -1,0 +1,20 @@
+// Mirrors the page footer: the links sit in the same translucent grey as the
+// text around them and only come forward on hover. The global `a` rule sets
+// `color: $dark`, which a muted class on the parent cannot override on its
+// own, so the colour is set on the descendants the way .footer does it.
+.policy-footer {
+  color: $muted;
+
+  * {
+    color: $muted;
+  }
+
+  a {
+    text-decoration: underline;
+
+    &:hover {
+      color: black;
+      font-weight: $thick;
+    }
+  }
+}

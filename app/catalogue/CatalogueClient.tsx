@@ -75,7 +75,12 @@ export default function CatalogueClient({ catalogue }: CatalogueClientProps) {
                     <Link href={`/catalogue/${f.slug}`}>{f.title}</Link>
                   </h1>
                   <h2>by {f.author}</h2>
-                  <h3>{dayjs(f.releaseDate).format("MMM YYYY")}</h3>
+                  <h3>
+                    {dayjs(f.releaseDate).format("MMM YYYY")}
+                    {f.soldOut && (
+                      <span className="--muted"> (sold out)</span>
+                    )}
+                  </h3>
                 </div>
               </div>
             );

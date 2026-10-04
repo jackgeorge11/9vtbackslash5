@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import dayjs from "dayjs";
 import Layout from "@/components/Layout";
 import Window from "@/components/Window";
+import PolicyFooter from "@/components/PolicyFooter";
 import { CartContext } from "@/contexts/CartContext";
 import { formatPrice } from "@/lib/utils";
 import {
@@ -224,6 +225,7 @@ export default function CartClient({ publications }: CartClientProps) {
             <Link href="/catalogue">catalogue</Link>?
           </h2>
         )}
+        <PolicyFooter />
       </Window>
     </Layout>
   );

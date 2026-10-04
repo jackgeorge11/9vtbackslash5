@@ -80,6 +80,42 @@ export async function getAllOpenCallSlugs(): Promise<{ slug: string }[]> {
   }));
 }
 
+// A slug paired with the moment its entry last changed in the CMS.
+export interface SitemapEntry {
+  slug: string;
+  updatedAt: string;
+}
+
+// `sys.updatedAt` is the only honest modification date available to us, and it
+// has to be asked for by name: selecting fields alone strips `sys` from the
+// response entirely, which is why the slug queries above return no date.
+//
+// Kept separate from the `...Slugs` functions rather than widening them,
+// because those feed `generateStaticParams`, where every key in the returned
+// object is treated as a route parameter.
+async function getSitemapEntries(
+  contentType: string
+): Promise<SitemapEntry[]> {
+  const entries = await client.getEntries({
+    content_type: contentType,
+    select: ["fields.slug", "sys.updatedAt"],
+  });
+  return entries.items
+    .map((item) => ({
+      slug: (item.fields as Record<string, unknown>).slug as string,
+      updatedAt: item.sys.updatedAt,
+    }))
+    .filter((entry) => !!entry.slug && !!entry.updatedAt);
+}
+
+export function getPublicationSitemapEntries(): Promise<SitemapEntry[]> {
+  return getSitemapEntries("publication");
+}
+
+export function getOpenCallSitemapEntries(): Promise<SitemapEntry[]> {
+  return getSitemapEntries("openCall");
+}
+
 export async function getAllOpenCalls(): Promise<Entry<EntrySkeletonType>[]> {
   const entries = await client.getEntries({
     content_type: "openCall",
